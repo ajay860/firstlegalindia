@@ -92,9 +92,9 @@ const Contact = () => {
                   <Box>
                     <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5 }}>Office Address</Typography>
                     <Typography variant="body1" color="text.secondary">
-                      123 Business Street, Financial District
+                      s-75 yashwant plaza near railway station
                       <br />
-                      Mumbai, Maharashtra 400001
+                      Indore, Madhya Pradesh 45200
                     </Typography>
                   </Box>
                 </Box>
@@ -104,7 +104,7 @@ const Contact = () => {
                   <Box>
                     <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5 }}>Phone</Typography>
                     <Typography variant="body1" color="text.secondary">
-                      +91 98765 43210
+                      +91 9977999663
                     </Typography>
                   </Box>
                 </Box>
@@ -114,7 +114,7 @@ const Contact = () => {
                   <Box>
                     <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5 }}>Email</Typography>
                     <Typography variant="body1" color="text.secondary">
-                      info@yourcompany.com
+                      psrco131@gmail.com
                     </Typography>
                   </Box>
                 </Box>

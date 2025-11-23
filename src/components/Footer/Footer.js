@@ -18,7 +18,7 @@ const Footer = () => {
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>
             <Typography variant="h6" color="primary" gutterBottom>
-              Company Name
+              First legal india private limited
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Providing expert tax and financial services to help your business grow.
@@ -55,10 +55,10 @@ const Footer = () => {
           <Grid item xs={12} md={3}>
             <Typography variant="subtitle1" gutterBottom>Contact</Typography>
             <Typography variant="body2" color="text.secondary">
-              123 Business St.<br />
-              City, State 12345<br />
-              Email: info@example.com<br />
-              Phone: (123) 456-7890
+               S-75 Yashwant Plaze <br /> 
+               Near Railway Station Indore.<br />
+              Email: psrco131@gmail.com<br />
+              Phone: <Link href="tel:9977999663">9977999663</Link>
             </Typography>
           </Grid>
         </Grid>

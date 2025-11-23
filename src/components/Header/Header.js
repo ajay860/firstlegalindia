@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -21,16 +21,27 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { Link } from 'react-router-dom';
+import PhoneIcon from '@mui/icons-material/Phone';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import { Link, useLocation } from 'react-router-dom';
 
 const Header = () => {
   const theme = useTheme();
+  const location = useLocation();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const servicesOpenMenu = Boolean(anchorEl);
+  const [activePath, setActivePath] = useState('/');
+  const [servicesOpenMenu, setServicesOpenMenu] = useState(false);
+  const [resourcesOpenMenu, setResourcesOpenMenu] = useState(false);
+
+  useEffect(() => {
+    setActivePath(location.pathname);
+    // Close mobile menu when route changes
+    setMobileOpen(false);
+  }, [location]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -41,22 +52,37 @@ const Header = () => {
       setServicesOpen(!servicesOpen);
     } else {
       setAnchorEl(event.currentTarget);
+      setServicesOpenMenu(true);
+      setResourcesOpenMenu(false);
     }
   };
 
-  const handleResourcesClick = () => {
-    setResourcesOpen(!resourcesOpen);
+  const handleResourcesClick = (event) => {
+    if (isMobile) {
+      setResourcesOpen(!resourcesOpen);
+    } else {
+      setAnchorEl(event.currentTarget);
+      setResourcesOpenMenu(true);
+      setServicesOpenMenu(false);
+    }
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+    setServicesOpenMenu(false);
+    setResourcesOpenMenu(false);
   };
+
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   const menuItems = [
     { title: 'Home', path: '/' },
     { title: 'About Us', path: '/about' },
     {
       title: 'Services',
+      path: '/services',
       submenu: [
         { title: 'Taxation', path: '/services/taxation' },
         { title: 'Accounting', path: '/services/accounting' },
@@ -67,6 +93,7 @@ const Header = () => {
     },
     {
       title: 'Resources',
+      path: '/resources',
       submenu: [
         { title: 'Blogs', path: '/resources/blogs' },
         { title: 'Tax Calendar', path: '/resources/tax-calendar' },
@@ -77,34 +104,71 @@ const Header = () => {
     { title: 'Contact Us', path: '/contact' },
   ];
 
+  const isActive = (path) => {
+    if (path === '/') {
+      return activePath === path;
+    }
+    // For submenu items, check for exact match or parent path
+    return activePath === path || 
+           (path !== '/' && activePath.startsWith(path) && 
+            (activePath[path.length] === '/' || activePath.length === path.length));
+  };
+
+  const getButtonSx = (path) => ({
+    mx: 1,
+    color: isActive(path) ? 'primary.main' : 'text.primary',
+    borderBottom: isActive(path) ? '2px solid' : 'none',
+    borderColor: 'primary.main',
+    borderRadius: 0,
+    fontWeight: isActive(path) ? 'bold' : 'normal',
+    '&:hover': {
+      color: 'primary.dark',
+      backgroundColor: 'rgba(0, 0, 0, 0.02)',
+    },
+  });
+
   const renderDesktopMenu = () => (
-    <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1, ml: 4 }}>
       {menuItems.map((item) => (
         <div key={item.title}>
           {item.submenu ? (
             <>
               <Button
+                component={Link}
+                to={item.path}
                 color="inherit"
-                onClick={handleServicesClick}
-                endIcon={item.title === 'Services' && <ExpandMoreIcon />}
-                sx={{ mx: 1 }}
+                onClick={(e) => item.title === 'Services' ? handleServicesClick(e) : handleResourcesClick(e)}
+                endIcon={item.submenu ? <ExpandMoreIcon /> : null}
+                sx={getButtonSx(item.path)}
               >
                 {item.title}
               </Button>
               <Menu
                 anchorEl={anchorEl}
-                open={servicesOpenMenu && item.title === 'Services'}
+                open={
+                  (item.title === 'Services' && servicesOpenMenu) || 
+                  (item.title === 'Resources' && resourcesOpenMenu)
+                }
                 onClose={handleClose}
               >
                 {item.submenu.map((subItem) => (
-                  <MenuItem key={subItem.title} onClick={handleClose} component={Link} to={subItem.path}>
+                  <MenuItem 
+                    key={subItem.title} 
+                    onClick={handleClose} 
+                    component={Link} 
+                    to={subItem.path}
+                    sx={{
+                      color: isActive(subItem.path) ? 'primary.main' : 'text.primary',
+                      fontWeight: isActive(subItem.path) ? 'bold' : 'normal',
+                    }}
+                  >
                     {subItem.title}
                   </MenuItem>
                 ))}
               </Menu>
             </>
           ) : (
-            <Button color="inherit" component={Link} to={item.path} sx={{ mx: 1 }}>
+            <Button color="inherit" component={Link} to={item.path} sx={getButtonSx(item.path)}>
               {item.title}
             </Button>
           )}
@@ -120,8 +184,23 @@ const Header = () => {
           <div key={item.title}>
             {item.submenu ? (
               <>
-                <ListItem button onClick={item.title === 'Services' ? handleServicesClick : handleResourcesClick}>
-                  <ListItemText primary={item.title} />
+                <ListItem 
+                  button 
+                  onClick={item.title === 'Services' ? handleServicesClick : handleResourcesClick}
+                  sx={{
+                    backgroundColor: isActive(item.path) ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
+                    '&:hover': {
+                      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                    },
+                  }}
+                >
+                  <ListItemText 
+                    primary={item.title} 
+                    primaryTypographyProps={{
+                      fontWeight: isActive(item.path) ? '600' : 'normal',
+                      color: isActive(item.path) ? 'primary.main' : 'rgba(0, 0, 0, 0.87)',
+                    }}
+                  />
                   {item.title === 'Services' ? (
                     servicesOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />
                   ) : resourcesOpen ? (
@@ -133,16 +212,52 @@ const Header = () => {
                 <Collapse in={item.title === 'Services' ? servicesOpen : resourcesOpen} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
                     {item.submenu.map((subItem) => (
-                      <ListItem button key={subItem.title} component={Link} to={subItem.path} onClick={handleDrawerToggle}>
-                        <ListItemText primary={subItem.title} sx={{ pl: 4 }} />
+                      <ListItem
+                        key={subItem.title}
+                        button
+                        component={Link}
+                        to={subItem.path}
+                        onClick={handleDrawerToggle}
+                        sx={{
+                          pl: 4,
+                          backgroundColor: isActive(subItem.path) ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
+                          '&:hover': {
+                            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                          },
+                        }}
+                      >
+                        <ListItemText
+                          primary={subItem.title}
+                          primaryTypographyProps={{
+                            fontWeight: isActive(subItem.path) ? '600' : 'normal',
+                            color: isActive(subItem.path) ? 'primary.main' : 'rgba(0, 0, 0, 0.87)',
+                          }}
+                        />
                       </ListItem>
                     ))}
                   </List>
                 </Collapse>
               </>
             ) : (
-              <ListItem button component={Link} to={item.path} onClick={handleDrawerToggle}>
-                <ListItemText primary={item.title} />
+              <ListItem
+                button
+                component={Link}
+                to={item.path}
+                onClick={handleDrawerToggle}
+                sx={{
+                  backgroundColor: isActive(item.path) ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                  },
+                }}
+              >
+                <ListItemText
+                  primary={item.title}
+                  primaryTypographyProps={{
+                    fontWeight: isActive(item.path) ? 'bold' : 'normal',
+                    color: isActive(item.path) ? 'primary.main' : 'text.primary',
+                  }}
+                />
               </ListItem>
             )}
             <Divider />
@@ -166,7 +281,7 @@ const Header = () => {
   );
 
   return (
-    <AppBar position="static" elevation={0} sx={{ bgcolor: 'white', color: 'text.primary' }}>
+    <AppBar position="static" elevation={1} sx={{ bgcolor: 'white', color: 'text.primary', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -185,18 +300,48 @@ const Header = () => {
           </Typography>
 
           {!isMobile && renderDesktopMenu()}
-          
-          <Box sx={{ display: 'flex', alignItems: 'center', ml: 'auto' }}>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', ml: 'auto', gap: 1 }}>
             {!isMobile && (
-              <Button
-                variant="contained"
-                color="primary"
-                component={Link}
-                to="/book-appointment"
-                sx={{ ml: 2 }}
-              >
-                Book Appointment
-              </Button>
+              <>
+                <IconButton 
+                  href="tel:9977999663" 
+                  color="primary" 
+                  aria-label="Call us"
+                  sx={{ 
+                    color: 'primary.main',
+                    '&:hover': { 
+                      backgroundColor: 'rgba(25, 118, 210, 0.04)',
+                    }
+                  }}
+                >
+                  <PhoneIcon />
+                </IconButton>
+                <IconButton 
+                  href="https://wa.me/919977999663" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  color="primary" 
+                  aria-label="WhatsApp us"
+                  sx={{ 
+                    color: 'primary.main',
+                    '&:hover': { 
+                      backgroundColor: 'rgba(25, 118, 210, 0.04)',
+                    }
+                  }}
+                >
+                  <WhatsAppIcon />
+                </IconButton>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  to="/book-appointment"
+                  sx={{ ml: 1 }}
+                >
+                  Book Appointment
+                </Button>
+              </>
             )}
             {isMobile && (
               <IconButton

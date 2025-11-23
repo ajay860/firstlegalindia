@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { styled } from '@mui/material/styles';
+import PhoneIcon from '@mui/icons-material/Phone';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import {
   Container,
   Typography,
@@ -20,6 +22,7 @@ import {
   Alert,
   AlertTitle,
   Divider,
+  IconButton,
 } from '@mui/material';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -173,6 +176,32 @@ const BookAppointment = () => {
             }}
           >
             Book Your Appointment
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', mt: 2 }}>
+              <IconButton 
+                href="tel:9977999663" 
+                color="inherit" 
+                aria-label="Call us"
+                sx={{ 
+                  backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                  '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.3)' }
+                }}
+              >
+                <PhoneIcon />
+              </IconButton>
+              <IconButton 
+                href="https://wa.me/919977999663" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                color="inherit" 
+                aria-label="WhatsApp us"
+                sx={{ 
+                  backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                  '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.3)' }
+                }}
+              >
+                <WhatsAppIcon />
+              </IconButton>
+            </Box>
           </Typography>
           <Typography
             variant="h5"

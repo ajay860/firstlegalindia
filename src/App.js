@@ -19,12 +19,39 @@ import BookAppointment from './pages/BookAppointment';
 // Create a theme instance
 const theme = createTheme({
   palette: {
-    primary: teal,
-    secondary: deepOrange,
+    primary: {
+      main: '#2f2f39',
+      light: '#585862',
+      dark: '#080814',
+      contrastText: '#fff',
+    },
+    secondary: {
+      main: '#ea1b3d',
+      light: '#ff5e68',
+      dark: '#b0001a',
+      contrastText: '#fff',
+    },
     mode: 'light',
   },
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+  },
+  components: {
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          '&.page-enter': {
+            opacity: 0,
+            transform: 'translateY(20px)',
+          },
+          '&.page-enter-active': {
+            opacity: 1,
+            transform: 'translateY(0)',
+            transition: 'opacity 300ms, transform 300ms',
+          },
+        },
+      },
+    },
   },
 });
 
@@ -36,16 +63,15 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="about" element={<About />} />
+              <Route index element={<Home className="page-enter" />} />
+              <Route path="about" element={<About className="page-enter" />} />
               <Route path="services">
-                <Route index element={<Services />} />
-                <Route path=":serviceType" element={<ServiceDetail />} />
+                <Route index element={<Services className="page-enter" />} />
+                <Route path=":serviceType" element={<ServiceDetail className="page-enter" />} />
               </Route>
-              <Route path="resources" element={<Resources />} />
-              <Route path="contact" element={<Contact />} />
-              <Route path="book-appointment" element={<BookAppointment />} />
-              {/* Add more routes here as needed */}
+              <Route path="resources" element={<Resources className="page-enter" />} />
+              <Route path="contact" element={<Contact className="page-enter" />} />
+              <Route path="book-appointment" element={<BookAppointment className="page-enter" />} />
             </Route>
           </Routes>
         </Router>
