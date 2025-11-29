@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { store } from './app/store';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
-import { teal, deepOrange } from '@mui/material/colors';
+// import { teal, deepOrange } from '@mui/material/colors';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Import components
