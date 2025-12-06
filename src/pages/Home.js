@@ -85,7 +85,6 @@ const Home = () => {
     }
   ];
 
- 
 
   return (
     <Box>

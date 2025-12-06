@@ -10,7 +10,7 @@ import { motion } from "framer-motion"
 
 export default function WhyChooseUs() {
   return (
-    <Box className="py-5 px-3 px-md-5">
+    <Box className="py-5">
       {/* Parent Row */}
       <div className="row gy-5">
         {/* LEFT SIDE */}

@@ -105,7 +105,7 @@ const ServicesSlider = ({ services }) => {
   };
 
   return (
-    <Box sx={{ width: '100%', position: 'relative', px: 4 }}> {/* Removed unnecessary padding */}
+    <Box sx={{ width: '100%', position: 'relative', ml: -1, mr: -1 }}> {/* Removed unnecessary padding */}
       <Slider {...settings}>
         {services.map((service, index) => (
           <Box key={index} sx={{ display: 'flex', justifyContent: 'center', p: 1 }}>
