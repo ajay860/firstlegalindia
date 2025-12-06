@@ -8,6 +8,8 @@ import {
   Person as PersonIcon
 } from '@mui/icons-material';
 
+import PageInfo from '../../components/PageInfo';
+
 const resources = [
   {
     title: 'Blogs',
@@ -37,10 +39,22 @@ const resources = [
 
 const Resources = () => {
   return (
+    <React.Fragment>
+    <PageInfo
+      title="Blog"
+      subtitle="Latest updates and articles"
+      // tagline="Stay informed, stay ahead."
+      backgroundImage="/about-us.png"
+      breadcrumbs={[
+        { label: "Home", href: "/" },
+        { label: "Blog" }
+      ]}
+/>
     <Container maxWidth="lg" sx={{ py: 8 }}>
       <Typography variant="h3" component="h1" gutterBottom>
         Resources
       </Typography>
+      {/* 
       <Typography variant="body1" paragraph sx={{ mb: 6 }}>
         Access our collection of resources to help you with your financial needs.
       </Typography>
@@ -99,8 +113,9 @@ const Resources = () => {
             </ListItem>
           ))}
         </List>
-      </Box>
+      </Box> */}
     </Container>
+    </React.Fragment>
   );
 };
 

@@ -32,9 +32,19 @@ const theme = createTheme({
       contrastText: '#fff',
     },
     mode: 'light',
+    light: '#E9E9E9',
+    service: '#E9E9E9'
   },
   typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Outfit", sans-serif',
+    body: {
+      fontSize: "16px",
+      color: '#2f2f39',
+    },
+    bodySecondary: {
+      fontSize: "16px",
+      color: '#ea1b3d',
+    }
   },
   components: {
     MuiContainer: {

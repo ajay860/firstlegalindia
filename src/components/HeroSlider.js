@@ -14,8 +14,8 @@ const SlideContent = ({ title, subtitle, buttonText, buttonLink }) => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
+        alignItems: 'flex-start',
+        textAlign: 'left',
         position: 'relative',
         overflow: 'hidden',
         px: 2,
@@ -48,9 +48,10 @@ const SlideContent = ({ title, subtitle, buttonText, buttonLink }) => {
           component="h1"
           gutterBottom
           sx={{
+            maxWidth: '700px',
             fontWeight: 800,
             mb: 3,
-            fontSize: { xs: '2.2rem', sm: '3rem', md: '4rem' },
+            fontSize: { xs: '2.2rem', sm: '2.2rem', md: '2.5rem' },
             lineHeight: 1.1,
             textShadow: '0 2px 4px rgba(0,0,0,0.3)',
           }}
@@ -62,11 +63,11 @@ const SlideContent = ({ title, subtitle, buttonText, buttonLink }) => {
           variant="h5"
           sx={{
             maxWidth: '800px',
-            mx: 'auto',
+            // mx: 'auto',
             mb: 6,
             opacity: 0.9,
             lineHeight: 1.6,
-            fontSize: { xs: '1.1rem', md: '1.5rem' },
+            fontSize: { xs: '1rem', md: '1.5rem' },
             fontWeight: 300,
             textShadow: '0 1px 2px rgba(0,0,0,0.3)',
           }}
@@ -144,22 +145,23 @@ const HeroSlider = () => {
   };
 
   // Hero slides data
+  // linear-gradient(135deg, rgba(0,105,92,0.9) 0%, rgba(0,137,123,0.9) 100%), 
   const heroSlides = [
     {
-      title: "Expert Financial Solutions",
-      subtitle: "Tailored accounting and tax services designed to drive your business growth and ensure compliance.",
-      buttonText: "Explore Our Services",
+      title: "End-to-End Business & Compliance Consulting ",
+      subtitle: "First India Legal provides comprehensive business registration and compliance solutions, online and offline, ensuring regulatory adherence and peace of mind. ",
+      buttonText: "Contact Us",
       buttonLink: "/services",
-      bgImage: "linear-gradient(135deg, rgba(0,105,92,0.9) 0%, rgba(0,137,123,0.9) 100%)",
-      overlay: "rgba(0,0,0,0.4)",
+      bgImage: "url('/slider.png')",
+      overlay: "rgba(0,0,0,0)",
     },
     {
       title: "Strategic Business Advisory",
       subtitle: "Expert guidance to navigate financial challenges and capitalize on growth opportunities.",
       buttonText: "Learn More",
       buttonLink: "/about",
-      bgImage: "linear-gradient(135deg, rgba(13,71,161,0.9) 0%, rgba(25,118,210,0.9) 100%)",
-      overlay: "rgba(0,0,0,0.4)",
+      bgImage: "url('/slider.png')",
+      overlay: "rgba(0,0,0,0)",
     }
   ];
 
@@ -179,6 +181,10 @@ const HeroSlider = () => {
                 right: 0,
                 bottom: 0,
                 background: `linear-gradient(to right, ${slide.overlay}, ${slide.overlay}), ${slide.bgImage}`,
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center bottom',
+                opacity: 1,
                 zIndex: 1,
               }
             }}
