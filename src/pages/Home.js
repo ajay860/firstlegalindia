@@ -108,47 +108,11 @@ const Home = () => {
               We provide end-to-end financial and compliance solutions
             </Typography>
           </Box>
-          </Container>
-          <Container maxWidth="xl">
           <ServicesSection />
-          </Container>
-          <Container maxWidth="lg">
-          {/* <Grid container spacing={4}>
-            {services.map((service, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <Card 
-                  sx={{ 
-                    height: '100%',
-                    p: 3,
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    transition: 'transform 0.3s, box-shadow 0.3s',
-                    '&:hover': {
-                      transform: 'translateY(-5px)',
-                      boxShadow: 6
-                    }
-                  }}
-                >
-                  <Box sx={{ 
-                    color: 'primary.main', 
-                    mr: 2,
-                    mt: 0.5
-                  }}>
-                    {service.icon}
-                  </Box>
-                  <Box>
-                    <Typography variant="h6" gutterBottom>
-                      {service.title}
-                    </Typography>
-                  </Box>
-                </Card>
-              </Grid>
-            ))}
-          </Grid> */}
         </Container>
       </Box>
       <Box sx={{ py: 8, bgcolor: 'background.paper' }}>
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <WhyChooseUs />
         </Container>
       </Box>
