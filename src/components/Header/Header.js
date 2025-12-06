@@ -36,6 +36,7 @@ const Header = () => {
   const [activePath, setActivePath] = useState('/');
   const [servicesOpenMenu, setServicesOpenMenu] = useState(false);
   const [resourcesOpenMenu, setResourcesOpenMenu] = useState(false);
+  const [sticky, setSticky] = useState(false);
 
   useEffect(() => {
     setActivePath(location.pathname);
@@ -82,7 +83,7 @@ const Header = () => {
     { title: 'About Us', path: '/about' },
     {
       title: 'Services',
-      path: '/services',
+      path: '#',
       submenu: [
         { title: 'Taxation', path: '/services/taxation' },
         { title: 'Accounting', path: '/services/accounting' },
@@ -94,12 +95,12 @@ const Header = () => {
     {
       title: 'Resources',
       path: '/resources',
-      submenu: [
-        { title: 'Blogs', path: '/resources/blogs' },
-        { title: 'Tax Calendar', path: '/resources/tax-calendar' },
-        { title: 'Download Forms', path: '/resources/download-forms' },
-        { title: 'Client Portal', path: '/client-portal' },
-      ],
+      // submenu: [
+      //   { title: 'Blogs', path: '/resources/blogs' },
+      //   { title: 'Tax Calendar', path: '/resources/tax-calendar' },
+      //   { title: 'Download Forms', path: '/resources/download-forms' },
+      //   { title: 'Client Portal', path: '/client-portal' },
+      // ],
     },
     { title: 'Contact Us', path: '/contact' },
   ];
@@ -117,7 +118,7 @@ const Header = () => {
   const getButtonSx = (path) => ({
     mx: 1,
     color: isActive(path) ? 'primary.main' : 'text.primary',
-    borderBottom: isActive(path) ? '2px solid' : 'none',
+    // borderBottom: isActive(path) ? '2px solid' : 'none',
     borderColor: 'primary.main',
     borderRadius: 0,
     fontWeight: isActive(path) ? 'bold' : 'normal',
@@ -159,7 +160,8 @@ const Header = () => {
                     to={subItem.path}
                     sx={{
                       color: isActive(subItem.path) ? 'primary.main' : 'text.primary',
-                      fontWeight: isActive(subItem.path) ? 'bold' : 'normal',
+                      fontWeight: isActive(subItem.path) ? '900' : '600',
+                      fontSize: '16px',
                     }}
                   >
                     {subItem.title}
@@ -280,11 +282,27 @@ const Header = () => {
     </Box>
   );
 
+  useEffect(() => {
+  const handleScroll = () => {
+    if (window.scrollY > 100) {
+      setSticky(true);
+    } else {
+      setSticky(false);
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
+
+
   return (
-    <AppBar position="static" elevation={1} sx={{ bgcolor: 'white', color: 'text.primary', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-      <Container maxWidth="xl">
+    <AppBar  position={sticky ? "fixed" : "static"}
+  elevation={sticky ? 4 : 1} sx={{ bgcolor: 'white', color: 'text.primary', boxShadow: '0 1px 2px rgba(0,0,0,0.08), 0px 1px 5px rgba(0,0,0,0.10)' }}>
+      <Container maxWidth="lg">
         <Toolbar disableGutters>
-          <Typography
+          <img src="/logo.png" alt="Logo" style={{ height: 40, marginRight: 16 }} />
+          {/* <Typography
             variant="h6"
             component={Link}
             to="/"
@@ -297,7 +315,7 @@ const Header = () => {
             }}
           >
             YourLogo
-          </Typography>
+          </Typography> */}
 
           {!isMobile && renderDesktopMenu()}
 
