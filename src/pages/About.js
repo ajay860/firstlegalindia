@@ -163,13 +163,13 @@ const About = () => {
       </motion.div>
       <Box sx={{ py: { xs: 8, md: 12 }, bgcolor: "background.paper" }}>
         <Container maxWidth='lg'>
-          <Grid container spacing={2}>
-            <Grid size={4}>
+          <Box className="row gap-6">
+            <Box className="col-xs-12 col-sm-4">
               <motion.div variants={fadeInUp}>
                 <Box></Box>
               </motion.div>
-            </Grid>
-            <Grid size={8}>
+            </Box>
+            <Box className="col-xs-12 col-sm-8">
               <motion.div variants={fadeInUp}>
                 <Box>
                   <Typography
@@ -210,8 +210,8 @@ const About = () => {
                     standard dummy text ever since the 1500s,
                   </Typography>
                   <Box>
-                    <Grid container spacing={6}>
-                      <Grid size={6}>
+                    <Box className="row gap-6">
+                      <Grid className="col-xs-12 col-sm-6">
                         <nav aria-label='secondary mailbox folders'>
                           <List>
                             <ListItem disablePadding>
@@ -249,7 +249,7 @@ const About = () => {
                           </List>
                         </nav>
                       </Grid>
-                      <Grid size={6}>
+                      <Grid className="col-xs-12 col-sm-6">
                         <SpinBox
                           text='Management Accounting'
                           textOrder='2'
@@ -274,18 +274,18 @@ const About = () => {
                           icon={PeopleIcon}
                         />
                       </Grid>
-                    </Grid>
+                    </Box>
                   </Box>
                 </Box>
               </motion.div>
-            </Grid>
-          </Grid>
+            </Box>
+          </Box>
         </Container>
       </Box>
       <Box sx={{ py: { xs: 8, md: 12 }, bgcolor: "#E9E9E9" }}>
         <Container maxWidth='lg'>
-          <Grid container spacing={2}>
-            <Grid size={6}>
+          <Grid className="row gap-6">
+            <Grid className="col-xs-12 col-sm-6">
               <motion.div variants={fadeInUp}>
                  <Box><Typography
                       component='p'
@@ -318,7 +318,7 @@ const About = () => {
                   </Box>  
               </motion.div>
             </Grid>
-            <Grid size={6}>
+            <Grid className="col-xs-12 col-sm-6">
               <motion.div variants={fadeInUp}>
                 <Box>
                   <Typography
@@ -363,8 +363,8 @@ const About = () => {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <Grid container spacing={6}>
-              <Grid size={6}>
+            <Grid  className="row gap-6">
+              <Grid  className="col-xs-12 col-sm-6">
                 <motion.div variants={fadeInUp}>
                   <Typography
                     variant='h5'
@@ -419,10 +419,11 @@ const About = () => {
                   </Box>
                 </motion.div>
               </Grid>
-              <Grid size={6}>
+              <Grid  className="col-xs-12 col-sm-6">
                 <motion.div variants={fadeInUp}>
                    <Grid container spacing={6} alignItems='center'>
-              <Grid size={6}><Box
+              <Grid size={6}>
+                <Box
                   component='img'
                   src='https://preview.vwthemesdemo.com/chartered-accountant-pro/wp-content/themes/chartered-accountant-pro/assets/images/about-page/vision1.png'
                   alt='Our Office'
