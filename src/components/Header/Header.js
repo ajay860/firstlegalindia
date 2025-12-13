@@ -384,7 +384,7 @@ const renderDesktopMenu = () => (
             {!isMobile && (
               <>
                 <IconButton 
-                  href="tel:9977999663" 
+                  href="tel:8818888744" 
                   color="primary" 
                   aria-label="Call us"
                   sx={{ 
@@ -397,7 +397,7 @@ const renderDesktopMenu = () => (
                   <PhoneIcon />
                 </IconButton>
                 <IconButton 
-                  href="https://wa.me/919977999663" 
+                  href="https://wa.me/918818888744" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   color="primary" 

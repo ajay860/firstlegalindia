@@ -178,7 +178,7 @@ const BookAppointment = () => {
             Book Your Appointment
             <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', mt: 2 }}>
               <IconButton 
-                href="tel:9977999663" 
+                href="tel:8818888744" 
                 color="inherit" 
                 aria-label="Call us"
                 sx={{ 
@@ -189,7 +189,7 @@ const BookAppointment = () => {
                 <PhoneIcon />
               </IconButton>
               <IconButton 
-                href="https://wa.me/919977999663" 
+                href="https://wa.me/918818888744" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 color="inherit" 
