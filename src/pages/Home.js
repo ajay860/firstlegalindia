@@ -37,19 +37,11 @@ import HeroSlider from '../components/HeroSlider';
 import HomeAboutUs from '../components/Home/HomeAbout';
 import ServicesSection from '../components/Home/ServicesSection';
 import WhyChooseUs from '../components/Home/WhyChooseUs';
+import Testimonials from '../components/Home/Testimonials'
 
 const Home = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-  // const services = [
-  //   { icon: <ReceiptIcon color="primary" />, title: 'Income Tax Filing & Tax Planning' },
-  //   { icon: <ReceiptIcon color="primary" />, title: 'GST Registration & Filing' },
-  //   { icon: <ReceiptIcon color="primary" />, title: 'Complete Accounting & Bookkeeping' },
-  //   { icon: <SearchIcon color="primary" />, title: 'Statutory & Internal Audit' },
-  //   { icon: <BusinessIcon color="primary" />, title: 'Business Registration & ROC Compliance' },
-  //   { icon: <TrendingUpIcon color="primary" />, title: 'Financial & Business Advisory' }
-  // ];
 
   const strengths = [
     { value: '10+', label: 'Years of Experience' },
@@ -65,26 +57,6 @@ const Home = () => {
     'Corporates & Partnership Firms',
     'NGOs & Trusts'
   ];
-
-  const clients = [
-    { icon: <PersonIcon />, title: 'Individuals & Salaried Employees' },
-    { icon: <StoreIcon />, title: 'Small & Medium Businesses' },
-    { icon: <StartupIcon />, title: 'Startups & Entrepreneurs' },
-    { icon: <CorpIcon />, title: 'Corporates & Partnership Firms' },
-    { icon: <NgoIcon />, title: 'NGOs & Trusts' }
-  ];
-
-  const testimonials = [
-    {
-      text: "Very professional and quick filing service. Saved me a lot of time.",
-      author: "Client"
-    },
-    {
-      text: "Perfect consulting for my startup, from registration to compliance.",
-      author: "Client"
-    }
-  ];
-
 
   return (
     <Box>
@@ -184,40 +156,8 @@ const Home = () => {
       {/* Testimonials */}
       <Box sx={{ py: 8, bgcolor: 'grey.50' }}>
         <Container maxWidth="lg">
-          <Box textAlign="center" mb={6}>
-            <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 700 }}>
-              What Our Clients Say
-            </Typography>
-          </Box>
-          
           <Grid container spacing={4}>
-            {testimonials.map((testimonial, index) => (
-              <Grid item xs={12} md={6} key={index}>
-                <Card sx={{ p: 4, height: '100%' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <Box sx={{ 
-                      width: 48, 
-                      height: 48, 
-                      bgcolor: 'primary.light', 
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      mr: 2,
-                      color: 'primary.contrastText'
-                    }}>
-                      <PersonIcon />
-                    </Box>
-                    <Typography variant="subtitle1" fontWeight="bold">
-                      {testimonial.author}
-                    </Typography>
-                  </Box>
-                  <Typography variant="body1" color="text.secondary">
-                    "{testimonial.text}"
-                  </Typography>
-                </Card>
-              </Grid>
-            ))}
+            <Testimonials />
           </Grid>
         </Container>
       </Box>

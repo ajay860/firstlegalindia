@@ -527,11 +527,13 @@ const handleCategoryToggle = (key) => {
     >
       <Container maxWidth='lg'>
         <Toolbar disableGutters>
-          <img
-            src='/logo.png'
-            alt='Logo'
-            style={{ height: 40, marginRight: 16 }}
-          />
+          <Link to="/">
+  <img
+    src="/logo.png"
+    alt="Logo"
+    style={{ height: 40, marginRight: 16, cursor: "pointer" }}
+  />
+</Link>
 
           {!isMobile && renderDesktopMenu()}
 

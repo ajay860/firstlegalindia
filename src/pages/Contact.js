@@ -122,7 +122,7 @@ const Contact = () => {
       <Container maxWidth='lg' sx={{ py: { xs: 6, md: 8 } }}>
         <Grid className='row' spacing={6}>
           {/* Contact Information */}
-          <Grid classname='col-sm-5' xs={12} md={5}>
+          <Grid classname='col-sm-4' xs={12} md={5}>
             <Paper elevation={0} sx={{ p: 4, height: "100%", borderRadius: 2 }}>
               <Typography
                 variant='h4'

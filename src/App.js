@@ -6,6 +6,7 @@ import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 // import { teal, deepOrange } from '@mui/material/colors';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 // Import components
 import Layout from './components/Layout/Layout';
 import ServiceLayout  from './components/Layout/ServiceLayout';
@@ -75,9 +76,6 @@ function App() {
         <Router>
           <Routes>
             <Route element={<ServiceLayout />}>
-              {/* <Route path="/services">
-                <Route index element={<Services className="page-enter" />} />
-              </Route> */}
               <Route path=":serviceType" element={<ServiceDetail className="page-enter" />} />
               <Route path="/:industry/:industrySlug" element={<IndustryDetail className="page-enter"/>} />
             </Route>
