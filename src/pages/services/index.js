@@ -1,245 +1,246 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+
 import {
   Container,
   Typography,
   Box,
-  Grid,
-  Card,
-  CardContent,
-  useTheme,
-  useMediaQuery,
   Divider,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Paper
+  Breadcrumbs,
+  TextField,
+  InputAdornment,
+  IconButton,
+  Link,
 } from '@mui/material';
-import {
-  Receipt as TaxIcon,
-  AccountBalance as AccountingIcon,
-  GppGood as AuditIcon,
-  Business as BusinessIcon,
-  EmojiObjects as AdvisoryIcon,
-  CheckCircle as CheckIcon
-} from '@mui/icons-material';
 
-const services = [
-  {
-    title: 'Taxation Services',
-    slug: 'taxation',
-    icon: <TaxIcon fontSize="large" color="primary" />,
-    items: [
-      'Income Tax Return (ITR) Filing for Individuals, Firms, and Companies',
-      'GST Registration and Monthly/Quarterly GST Filing',
-      'Tax Audit and Compliance',
-      'TDS Return Filing and Advisory',
-      'Tax Planning and Savings Consultation',
-      'Advance Tax Calculation'
-    ]
-  },
-  {
-    title: 'Accounting Services',
-    slug: 'accounting',
-    icon: <AccountingIcon fontSize="large" color="primary" />,
-    items: [
-      'Complete Bookkeeping Services',
-      'Preparation of Financial Statements',
-      'Accounts Payable/Receivable Management',
-      'Payroll Processing',
-      'Virtual CFO Services',
-      'Monthly/Quarterly MIS Reporting'
-    ]
-  },
-  {
-    title: 'Audit & Assurance Services',
-    slug: 'audit-assurance',
-    icon: <AuditIcon fontSize="large" color="primary" />,
-    items: [
-      'Statutory Audit for Companies',
-      'Internal Audit & Process Review',
-      'Stock Audit',
-      'Compliance Audit',
-      'Management Audit',
-      'Due Diligence for Mergers/Acquisitions'
-    ]
-  },
-  {
-    title: 'Business Registration & Compliance',
-    slug: 'business-registration',
-    icon: <BusinessIcon fontSize="large" color="primary" />,
-    items: [
-      'Private Limited Company Registration',
-      'LLP & Partnership Firm Registration',
-      'Proprietorship Registration',
-      'GST Registration & Amendments',
-      'ROC Compliance & Annual Filings',
-      'MSME/Udyam Registration',
-      'Trademark Registration Support'
-    ]
-  },
-  {
-    title: 'Advisory Services',
-    slug: 'advisory',
-    icon: <AdvisoryIcon fontSize="large" color="primary" />,
-    items: [
-      'Financial Advisory & Investment Guidance',
-      'Business Strategy & Consulting',
-      'Startup Mentorship & Compliance Planning',
-      'Risk Assessment & Management',
-      'Budgeting and Forecasting'
-    ]
-  }
-];
+import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
+
+import { MENU_DATA } from '../../config/menu';
 
 const Services = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [searchTerm, setSearchTerm] = useState('');
+
+  /* ================= DATA PROCESSING ================= */
+
+  // ✅ De-duplicate topics by link
+  const allTopics = useMemo(() => {
+    const map = new Map();
+
+    MENU_DATA.forEach(category => {
+      category.sections.forEach(section => {
+        section.items.forEach(item => {
+          if (!map.has(item.link)) {
+            map.set(item.link, {
+              ...item,
+              category: category.title,
+              section: section.heading,
+            });
+          }
+        });
+      });
+    });
+
+    return Array.from(map.values());
+  }, []);
+
+  const filteredTopics = useMemo(() => {
+    if (!searchTerm) return allTopics;
+    const term = searchTerm.toLowerCase();
+
+    return allTopics.filter(topic =>
+      topic.label.toLowerCase().includes(term) ||
+      topic.category.toLowerCase().includes(term) ||
+      topic.section.toLowerCase().includes(term)
+    );
+  }, [searchTerm, allTopics]);
+
+  const groupedTopics = useMemo(() => {
+    return filteredTopics.reduce((acc, topic) => {
+      acc[topic.category] = acc[topic.category] || [];
+      acc[topic.category].push(topic);
+      return acc;
+    }, {});
+  }, [filteredTopics]);
+
+  /* ================= UI ================= */
 
   return (
     <Box>
-      {/* Hero Section */}
-      <Box
-        sx={{
-          bgcolor: 'primary.main',
-          color: 'white',
-          py: { xs: 8, md: 10 },
-          textAlign: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-          '&:before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'linear-gradient(135deg, rgba(0, 105, 92, 0.9) 0%, rgba(0, 137, 123, 0.9) 100%)',
-            zIndex: 1
-          }
-        }}
-      >
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
-          <Typography
-            variant="h2"
-            component="h1"
-            sx={{
-              fontWeight: 700,
-              mb: 3,
-              fontSize: { xs: '2.5rem', md: '3.5rem' },
-              lineHeight: 1.2
-            }}
-          >
-            Our Services
-          </Typography>
-          <Typography
-            variant="h5"
-            component="p"
-            sx={{
-              maxWidth: '800px',
-              mx: 'auto',
-              opacity: 0.9,
-              lineHeight: 1.6,
-              fontSize: { xs: '1.1rem', md: '1.25rem' }
-            }}
-          >
-            We offer a wide range of financial, compliance, and advisory services designed to help individuals and businesses stay compliant and grow efficiently.
-          </Typography>
-        </Container>
-      </Box>
 
-      {/* Services Grid */}
-      <Container maxWidth="lg" sx={{ py: { xs: 8, md: 10 } }}>
-        <Grid container spacing={4}>
-          {services.map((service, index) => (
-            <Grid item xs={12} key={index} sx={{ mb: 6 }}>
+      <Container maxWidth="lg" sx={{ py: 6 }}>
+
+        {/* Breadcrumbs */}
+        <Breadcrumbs sx={{ mb: 4 }}>
+          <Link component={RouterLink} to="/" underline="hover">
+            Home
+          </Link>
+          <Typography color="text.primary">Topics</Typography>
+        </Breadcrumbs>
+
+        {/* Header */}
+        <Box textAlign="center" mb={6}>
+          <Typography variant="h3" fontWeight={700} gutterBottom>
+            Browse Topics
+          </Typography>
+          <Typography color="text.secondary" maxWidth={800} mx="auto">
+            Quickly find topics by searching across categories, sections, and services.
+          </Typography>
+        </Box>
+
+        {/* Search */}
+        <Box
+          sx={{
+            maxWidth: 600,
+            mx: 'auto',
+            mb: 8,
+            position: 'sticky',
+            top: 80,
+            zIndex: 10,
+            // bgcolor: 'background.default',
+            py: 2,
+            mt: 5
+          }}
+        >
+          <TextField
+            fullWidth
+            placeholder="Search topics, categories, or sections..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon color="action" />
+                </InputAdornment>
+              ),
+              endAdornment: searchTerm && (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setSearchTerm('')}>
+                    <CloseIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '999px',
+                bgcolor: 'background.paper',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.06)',
+              },
+            }}
+          />
+        </Box>
+
+        {/* Categories */}
+        {Object.entries(groupedTopics).map(([category, topics]) => (
+          <Box
+            key={category}
+            sx={{
+              mb: 8,
+              borderRadius: 3,
+              overflow: 'hidden',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
+              bgcolor: 'background.paper',
+            }}
+          >
+            {/* Category Header */}
+            <Box
+              sx={{
+                bgcolor: 'grey.900',
+                color: 'common.white',
+                px: { xs: 3, md: 5 },
+                py: { xs: 4, md: 5 },
+                textAlign: 'center',
+              }}
+            >
+              <Typography variant="h4" fontWeight={600} gutterBottom>
+                {category}
+              </Typography>
+              <Typography sx={{ opacity: 0.85 }}>
+                {topics.length} topics available
+              </Typography>
+            </Box>
+
+            {/* Topic List */}
+            <Box sx={{ px: { xs: 3, md: 5 }, py: 4 }}>
               <Box
-                component={Link}
-                to={`/services/${service.slug}`}
+                component="ul"
                 sx={{
-                  textDecoration: 'none',
-                  display: 'block',
-                  height: '100%',
-                  '&:hover': {
-                    '& .service-card': {
-                      transform: 'translateY(-5px)',
-                      boxShadow: 6
-                    }
-                  }
+                  listStyle: 'none',
+                  p: 0,
+                  m: 0,
+                  display: 'grid',
+                  gridTemplateColumns: {
+                    xs: '1fr',
+                    md: '1fr 1fr 1fr',
+                  },
+                  gap: 3,
                 }}
               >
-                <Paper
-                  className="service-card"
-                  elevation={3}
-                  sx={{
-                    borderRadius: 2,
-                    overflow: 'hidden',
-                    height: '100%',
-                    transition: 'all 0.3s ease',
-                  }}
-                >
-                  <Box 
-                    sx={{ 
-                      bgcolor: 'primary.main',
-                      color: 'white',
-                      p: 3,
-                      display: 'flex',
-                      alignItems: 'center'
+                {topics.map(topic => (
+                  <Box
+                    component="li"
+                    key={topic.link}
+                    sx={{
+                      borderLeft: '4px solid',
+                      borderColor: 'primary.main',
+                      pl: 2,
+                      transition: 'all 0.2s ease',
+                      '&:hover': {
+                        transform: 'translateX(4px)',
+                      },
                     }}
                   >
-                    <Box sx={{ mr: 3 }}>{service.icon}</Box>
-                    <Typography variant="h4" component="h2" sx={{ fontWeight: 600 }}>
-                      {service.title}
+                    <Typography
+                      component={RouterLink}
+                      to={topic.link}
+                      sx={{
+                        textDecoration: 'none',
+                        fontWeight: 600,
+                        color: 'text.primary',
+                        '&:hover': {
+                          color: 'primary.main',
+                        },
+                      }}
+                    >
+                      {topic.label}
+                    </Typography>
+
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ mt: 0.5 }}
+                    >
+                      {topic.section}
                     </Typography>
                   </Box>
-                  <Box sx={{ p: 4 }}>
-                    <List disablePadding>
-                      {service.items.slice(0, 4).map((item, idx) => (
-                        <ListItem key={idx} disableGutters sx={{ py: 1 }}>
-                          <ListItemIcon sx={{ minWidth: 36 }}>
-                            <CheckIcon color="primary" />
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={item}
-                            primaryTypographyProps={{ variant: 'body1' }}
-                            sx={{ '& .MuiListItemText-primary': { fontSize: '0.9rem' } }}
-                          />
-                        </ListItem>
-                      ))}
-                      {service.items.length > 4 && (
-                        <Typography variant="body2" color="primary" sx={{ mt: 2, textAlign: 'center', fontWeight: 500 }}>
-                          + {service.items.length - 4} more services
-                        </Typography>
-                      )}
-                    </List>
-                  </Box>
-                </Paper>
+                ))}
               </Box>
-            </Grid>
-          ))}
-        </Grid>
+            </Box>
+          </Box>
+        ))}
+
+        {/* Empty State */}
+        {filteredTopics.length === 0 && (
+          <Box textAlign="center" py={10}>
+            <Typography variant="h6" gutterBottom>
+              No topics found 😕
+            </Typography>
+            <Typography color="text.secondary">
+              Try searching by category name, section, or keyword.
+            </Typography>
+          </Box>
+        )}
       </Container>
 
-      {/* CTA Section */}
-      <Box
-        sx={{
-          py: { xs: 8, md: 10 },
-          bgcolor: 'grey.50',
-          textAlign: 'center'
-        }}
-      >
-        <Container maxWidth="md">
-          <Typography
-            variant="h3"
-            component="h2"
-            gutterBottom
-            sx={{ fontWeight: 700, mb: 3 }}
-          >
+      {/* CTA */}
+      <Box bgcolor="grey.100" py={{ xs: 8, md: 10 }}>
+        <Container maxWidth="md" textAlign="center">
+          <Typography variant="h3" fontWeight={700} gutterBottom>
             Ready to Get Started?
           </Typography>
-          <Typography variant="h6" sx={{ mb: 5, opacity: 0.9 }}>
-            Contact us today to discuss how we can help with your financial needs.
+          <Typography variant="h6" color="text.secondary">
+            Contact us today to discuss how we can help.
           </Typography>
         </Container>
       </Box>
