@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Import components
 import Layout from './components/Layout/Layout';
+import ServiceLayout  from './components/Layout/ServiceLayout';
 import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/services';
@@ -15,6 +16,7 @@ import ServiceDetail from './pages/services/detail/ServiceDetail';
 import Resources from './pages/resources';
 import Contact from './pages/Contact';
 import BookAppointment from './pages/BookAppointment';
+import IndustryDetail from './pages/industry/IndustryDetail';
 
 // Create a theme instance
 const theme = createTheme({
@@ -72,6 +74,13 @@ function App() {
         <CssBaseline />
         <Router>
           <Routes>
+            {/* <Route element={<ServiceLayout />}>
+              <Route path="/services">
+                <Route index element={<Services className="page-enter" />} />
+                <Route path=":serviceType" element={<ServiceDetail className="page-enter" />} />
+              </Route>
+              <Route path="/industry/:industrySlug" element={<IndustryDetail />} />
+            </Route> */}
             <Route path="/" element={<Layout />}>
               <Route index element={<Home className="page-enter" />} />
               <Route path="about" element={<About className="page-enter" />} />
@@ -82,6 +91,8 @@ function App() {
               <Route path="resources" element={<Resources className="page-enter" />} />
               <Route path="contact" element={<Contact className="page-enter" />} />
               <Route path="book-appointment" element={<BookAppointment className="page-enter" />} />
+              <Route path="industry" element={<IndustryDetail className="page-enter"/>} />
+              <Route path="industries/asset-management" element={<IndustryDetail className="page-enter"/>} />
             </Route>
           </Routes>
         </Router>

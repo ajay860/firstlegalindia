@@ -78,32 +78,12 @@ const Header = () => {
   //   setAnchorEl(null);
   // };
 
-  const menuItems = [
-    { title: 'Home', path: '/' },
-    { title: 'About Us', path: '/about' },
-    {
-      title: 'Services',
-      path: '#',
-      submenu: [
-        { title: 'Taxation', path: '/services/taxation' },
-        { title: 'Accounting', path: '/services/accounting' },
-        { title: 'Audit & Assurance', path: '/services/audit-assurance' },
-        { title: 'Business Registration', path: '/services/business-registration' },
-        { title: 'Advisory', path: '/services/advisory' },
-      ],
-    },
-    {
-      title: 'Resources',
-      path: '/resources',
-      // submenu: [
-      //   { title: 'Blogs', path: '/resources/blogs' },
-      //   { title: 'Tax Calendar', path: '/resources/tax-calendar' },
-      //   { title: 'Download Forms', path: '/resources/download-forms' },
-      //   { title: 'Client Portal', path: '/client-portal' },
-      // ],
-    },
-    { title: 'Contact Us', path: '/contact' },
-  ];
+const menuItems = [
+  { title: 'Home', path: '/' },
+  { title: 'About Us', path: '/about' },
+  { title: 'Services', path: '/services' },
+  { title: 'Contact Us', path: '/contact' },
+];
 
   const isActive = (path) => {
     if (path === '/') {
@@ -128,56 +108,151 @@ const Header = () => {
     },
   });
 
-  const renderDesktopMenu = () => (
-    <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1, ml: 4 }}>
-      {menuItems.map((item) => (
-        <div key={item.title}>
-          {item.submenu ? (
-            <>
-              <Button
-                component={Link}
-                to={item.path}
-                color="inherit"
-                onClick={(e) => item.title === 'Services' ? handleServicesClick(e) : handleResourcesClick(e)}
-                endIcon={item.submenu ? <ExpandMoreIcon /> : null}
-                sx={getButtonSx(item.path)}
-              >
-                {item.title}
-              </Button>
-              <Menu
-                anchorEl={anchorEl}
-                open={
-                  (item.title === 'Services' && servicesOpenMenu) || 
-                  (item.title === 'Resources' && resourcesOpenMenu)
+const renderDesktopMenu = () => (
+  <Box sx={{ 
+    display: 'flex', 
+    alignItems: 'center',
+    justifyContent: 'center', 
+    flexGrow: 1, 
+    ml: 4,
+    position: 'relative' 
+  }}>
+    {menuItems.map((item) => (
+      <div key={item.title}>
+        {item.submenu ? (
+          <>
+            <Button
+              component={item.submenu ? 'div' : Link}
+              to={!item.submenu ? item.path : null}
+              color="inherit"
+              onClick={(e) => {
+                if (item.title === 'Industries') {
+                  e.preventDefault();
+                  setAnchorEl(e.currentTarget);
+                  setServicesOpenMenu(true);
+                  setResourcesOpenMenu(false);
+                } else if (item.title === 'Services') {
+                  handleServicesClick(e);
+                } else if (item.title === 'Resources') {
+                  handleResourcesClick(e);
                 }
-                onClose={handleClose}
-              >
-                {item.submenu.map((subItem) => (
-                  <MenuItem 
-                    key={subItem.title} 
-                    onClick={handleClose} 
-                    component={Link} 
-                    to={subItem.path}
-                    sx={{
-                      color: isActive(subItem.path) ? 'primary.main' : 'text.primary',
-                      fontWeight: isActive(subItem.path) ? '900' : '600',
-                      fontSize: '16px',
-                    }}
-                  >
-                    {subItem.title}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </>
-          ) : (
-            <Button color="inherit" component={Link} to={item.path} sx={getButtonSx(item.path)}>
+              }}
+              endIcon={item.submenu ? <ExpandMoreIcon /> : null}
+              sx={getButtonSx(item.path)}
+            >
               {item.title}
             </Button>
-          )}
-        </div>
-      ))}
-    </Box>
-  );
+            <Menu
+              anchorEl={anchorEl}
+              open={servicesOpenMenu && item.title === 'Industries'}
+              onClose={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  mt: 1.5,
+                  width: '100%',
+                  maxWidth: '100%',
+                  left: 0,
+                  right: 0,
+                  maxHeight: '80vh',
+                  overflow: 'auto',
+                  borderRadius: 0,
+                  bgcolor: '#008080',
+                  color: 'white',
+                  p: 3,
+                  '& .MuiMenu-paper': {
+                    width: '100%',
+                    maxWidth: '100%',
+                  },
+                },
+              }}
+              MenuListProps={{
+                sx: {
+                  maxWidth: 'lg',
+                  margin: '0 auto',
+                  display: 'grid',
+                  gridTemplateColumns: { xs: '1fr', md: 'repeat(4, 1fr)' },
+                  gap: 2,
+                  p: 2,
+                  width: '100%',
+                }
+              }}
+              sx={{
+                '& .MuiPaper-root': {
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                }
+              }}
+            >
+              {item.title === 'Industries' && item.submenu.map((subItem, index) => (
+                <MenuItem
+                  key={subItem.title}
+                  component={Link}
+                  to={subItem.path}
+                  onClick={handleClose}
+                  sx={{
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    },
+                    whiteSpace: 'normal',
+                    py: 1,
+                    px: 2,
+                    borderRadius: '4px',
+                  }}
+                >
+                  {subItem.title}
+                </MenuItem>
+              ))}
+              <Box
+                sx={{
+                  gridColumn: '1 / -1',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  mt: 2,
+                  pt: 2,
+                  borderTop: '1px solid rgba(255, 255, 255, 0.2)',
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  to="/industries"
+                  onClick={handleClose}
+                  sx={{
+                    bgcolor: 'white',
+                    color: '#008080',
+                    '&:hover': {
+                      bgcolor: 'rgba(255, 255, 255, 0.9)',
+                    },
+                    px: 4,
+                    py: 1,
+                    fontWeight: 'bold',
+                    textTransform: 'none',
+                    borderRadius: '4px',
+                  }}
+                >
+                  Explore All Industries
+                </Button>
+              </Box>
+            </Menu>
+          </>
+        ) : (
+          <Button 
+            color="inherit" 
+            component={Link} 
+            to={item.path} 
+            sx={getButtonSx(item.path)}
+          >
+            {item.title}
+          </Button>
+        )}
+      </div>
+    ))}
+  </Box>
+);
 
   const renderMobileMenu = () => (
     <Box sx={{ width: 250 }}>
@@ -276,7 +351,7 @@ const Header = () => {
           sx={{ mt: 2 }}
           onClick={handleDrawerToggle}
         >
-          Book Appointment
+          Talk Expert
         </Button>
       </Box>
     </Box>
@@ -302,20 +377,6 @@ const Header = () => {
       <Container maxWidth="lg">
         <Toolbar disableGutters>
           <img src="/logo.png" alt="Logo" style={{ height: 40, marginRight: 16 }} />
-          {/* <Typography
-            variant="h6"
-            component={Link}
-            to="/"
-            sx={{
-              mr: 2,
-              fontWeight: 700,
-              color: 'primary.main',
-              textDecoration: 'none',
-              flexGrow: { xs: 1, md: 0 },
-            }}
-          >
-            YourLogo
-          </Typography> */}
 
           {!isMobile && renderDesktopMenu()}
 
@@ -357,7 +418,7 @@ const Header = () => {
                   to="/book-appointment"
                   sx={{ ml: 1 }}
                 >
-                  Book Appointment
+                  Talk Expert
                 </Button>
               </>
             )}
@@ -380,7 +441,7 @@ const Header = () => {
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
+          keepMounted: true, 
         }}
       >
         {renderMobileMenu()}

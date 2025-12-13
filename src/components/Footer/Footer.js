@@ -18,18 +18,9 @@ const Footer = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={4}>
-            <img src="/logo2.png" alt="Logo" style={{ height: 240 }} />
-            {/* <Typography variant="h6" color="white" gutterBottom>
-              First legal india private limited
-            </Typography> */}
-            <Typography variant="body2" color="text.white" fontSize={'1.1rem'} mt={2}>
-              Providing expert tax and financial <br></br> services to help your business grow.
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={2}>
-            <Typography variant="subtitle1" gutterBottom>Quick Links</Typography>
+        <Grid className="row" spacing={4}>
+          <Grid className="col-sm-3" xs={12} md={2}>
+            <Typography variant="subtitle1" gutterBottom>Company</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Link component={RouterLink} to="/about" className="text-white" sx={{ mb: 1 }}>
                 About Us
@@ -42,8 +33,8 @@ const Footer = () => {
               </Link>
             </Box>
           </Grid>
-          <Grid item xs={12} md={3}>
-            <Typography variant="subtitle1" gutterBottom>Services</Typography>
+           <Grid className="col-sm-3" xs={12} md={3}>
+            <Typography variant="subtitle1" gutterBottom>Our Services</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Link component={RouterLink} to="/services/taxation" className="text-white" sx={{ mb: 1 }}>
                 Business Registration
@@ -65,13 +56,32 @@ const Footer = () => {
               </Link>
             </Box>
           </Grid>
-          <Grid item xs={12} md={3}>
-            <Typography variant="subtitle1" gutterBottom>Contact</Typography>
-            <Typography className="text-white">
+          <Grid className="col-sm-3" xs={12} md={2}>
+            <Typography variant="subtitle1" gutterBottom>Resources</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Link component={RouterLink} to="/about" className="text-white" sx={{ mb: 1 }}>
+                About Us
+              </Link>
+              <Link component={RouterLink} to="/services" className="text-white" sx={{ mb: 1 }}>
+                Services
+              </Link>
+              <Link component={RouterLink} to="/contact" className="text-white" sx={{ mb: 1 }}>
+                Contact Us
+              </Link>
+            </Box>
+          </Grid>
+         
+          <Grid className="col-sm-3" xs={12} md={3}>
+            <Typography variant="subtitle1" gutterBottom>Office</Typography>
+            <Typography className="text-white mb-2" variant="subtitle1">
+                <Link href="tel:8818888744" className="text-white">+91 8818888744</Link>
+            </Typography>
+            <Typography className="text-white mb-2" variant="subtitle1">
+              psrco131@gmail.com
+            </Typography>
+            <Typography className="text-white" variant="subtitle1">
                S-75 Yashwant Plaze <br /> 
-               Near Railway Station Indore.<br />
-              Email: psrco131@gmail.com<br />
-              Phone: <Link href="tel:8818888744" className="text-white">+91 8818888744</Link>
+               Near Railway Station Indore.
             </Typography>
           </Grid>
         </Grid>
