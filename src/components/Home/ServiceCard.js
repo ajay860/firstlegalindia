@@ -17,7 +17,7 @@ const ServiceCard = ({ title, description, bgImage, link }) => {
             borderRadius: 2,
             overflow: 'hidden',
             boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            mb: 4,
+            // mb: 4,
             cursor: 'pointer',
           }}
         >
@@ -60,7 +60,7 @@ const ServiceCard = ({ title, description, bgImage, link }) => {
 
           {/* Content */}
           <CardContent>
-            <Typography variant="body2" fontSize={'1.1rem'} color="text.primary" p={2}>
+            <Typography variant="body2" fontSize={'1.1rem'} color="text.primary" p={2} >
               {description}
             </Typography>
             <Link

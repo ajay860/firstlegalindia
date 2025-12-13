@@ -1,26 +1,20 @@
 // src/components/Layout/ServiceLayout.js
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Box, Container, useTheme,
-  useMediaQuery, } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import ServicesHeader from '../Header/ServicesHeader';
 import Header from '../Header/Header';
-import SubHeader from '../Header/SubHeader'
-const ServiceLayout = () => {
+import Footer from '../Footer';
 
-    console.log("APP");
+const ServiceLayout = () => {
     const location = useLocation();
-    const isServicePage = location.pathname.startsWith('/services') ||
-        location.pathname.startsWith('/industries');
-const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const isServicePage = location.pathname.startsWith('/services') || location.pathname.startsWith('/industries');
 
 
     if (!isServicePage) {
         return (
             <>
                 <Header />
-                {!isMobile && <SubHeader />}
                 <Box component="main">
                     <Outlet />
                 </Box>
@@ -36,6 +30,7 @@ const theme = useTheme();
                     <Outlet />
                 </Container>
             </Box>
+            <Footer />
         </Box>
     );
 };

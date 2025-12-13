@@ -25,6 +25,7 @@ import PhoneIcon from "@mui/icons-material/Phone"
 import WhatsAppIcon from "@mui/icons-material/WhatsApp"
 import { Link, useLocation } from "react-router-dom"
 import { MENU_DATA } from "../../config/menu.js"
+import SubHeader from '../Header/SubHeader'
 
 const Header = () => {
   const theme = useTheme()
@@ -592,6 +593,7 @@ const handleCategoryToggle = (key) => {
           </Box>
         </Toolbar>
       </Container>
+      {!isMobile && <SubHeader /> }
       <Drawer
         anchor='right'
         open={mobileOpen}
