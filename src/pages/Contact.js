@@ -120,9 +120,9 @@ const Contact = () => {
 
       {/* Main Content */}
       <Container maxWidth='lg' sx={{ py: { xs: 6, md: 8 } }}>
-        <Grid class='row' spacing={6}>
+        <Grid className='row' spacing={6}>
           {/* Contact Information */}
-          <Grid class='col-sm-5' xs={12} md={5}>
+          <Grid classname='col-sm-5' xs={12} md={5}>
             <Paper elevation={0} sx={{ p: 4, height: "100%", borderRadius: 2 }}>
               <Typography
                 variant='h4'
@@ -269,7 +269,7 @@ const Contact = () => {
           </Grid>
 
           {/* Appointment Section */}
-          <Grid class='col-sm-7' xs={12} md={7}>
+          <Grid className='col-sm-7' xs={12} md={7}>
             <Paper elevation={3} sx={{ p: 4, borderRadius: 2, height: "100%" }}>
               <Typography
                 variant='body1'

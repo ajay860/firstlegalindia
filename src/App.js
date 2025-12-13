@@ -74,13 +74,13 @@ function App() {
         <CssBaseline />
         <Router>
           <Routes>
-            {/* <Route element={<ServiceLayout />}>
-              <Route path="/services">
+            <Route element={<ServiceLayout />}>
+              {/* <Route path="/services">
                 <Route index element={<Services className="page-enter" />} />
-                <Route path=":serviceType" element={<ServiceDetail className="page-enter" />} />
-              </Route>
-              <Route path="/industry/:industrySlug" element={<IndustryDetail />} />
-            </Route> */}
+              </Route> */}
+              <Route path=":serviceType" element={<ServiceDetail className="page-enter" />} />
+              <Route path="/:industry/:industrySlug" element={<IndustryDetail className="page-enter"/>} />
+            </Route>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home className="page-enter" />} />
               <Route path="about" element={<About className="page-enter" />} />
