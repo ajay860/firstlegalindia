@@ -74,7 +74,7 @@ const Footer = () => {
           <Grid className="col-sm-3" xs={12} md={3}>
             <Typography variant="subtitle1" gutterBottom>Office</Typography>
             <Typography className="text-white mb-2" variant="subtitle1">
-                <Link href="tel:8818888744" className="text-white">+91 8818888744</Link>
+                <Link href="tel:8818888744" className="text-white">+91 88188-88744</Link>
             </Typography>
             <Typography className="text-white mb-2" variant="subtitle1">
               psrco131@gmail.com

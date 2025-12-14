@@ -166,7 +166,9 @@ const About = () => {
           <Box className="row gap-6">
             <Box className="col-xs-12 col-sm-4">
               <motion.div variants={fadeInUp}>
-                <Box></Box>
+                <Box>
+                  <img src="./about.png" alt="" className="img-fluid" />
+                </Box>
               </motion.div>
             </Box>
             <Box className="col-xs-12 col-sm-8">
@@ -205,9 +207,7 @@ const About = () => {
                       fontSize: " ",
                     }}
                   >
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s,
+                    We provide reliable and cost-effective financial, accounting, and compliance solutions for individuals, startups, and growing businesses. Our goal is to simplify complex financial processes and ensure timely, accurate service delivery. With a team of experienced professionals, we help businesses stay compliant, manage finances efficiently, and focus on sustainable growth.
                   </Typography>
                   <Box>
                     <Box className="row gap-6">
@@ -282,7 +282,7 @@ const About = () => {
           </Box>
         </Container>
       </Box>
-      <Box sx={{ py: { xs: 8, md: 12 }, bgcolor: "#E9E9E9" }}>
+      <Box sx={{ py: { xs: 8, md: 12 }, bgcolor: "#f3f5fa" }}>
         <Container maxWidth='lg'>
           <Grid className="row gap-6">
             <Grid className="col-xs-12 col-sm-6">
@@ -308,12 +308,12 @@ const About = () => {
                         fontSize: " ",
                       }}
                     >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur.
+                      Our mission is to simplify compliance and financial management for individuals, startups, and growing businesses.
+We strive to deliver accurate, reliable, and timely services across all our offerings.
+Our expertise includes accounting, GST, taxation, and company registration.
+We also support brand registration, food licensing, and CMA report preparation.
+By ensuring seamless compliance, we help businesses operate with confidence.
+This allows our clients to focus on what truly matters—their growth and success.
                     </Typography>
                   </Box>  
               </motion.div>
@@ -342,12 +342,12 @@ const About = () => {
                       fontSize: " ",
                     }}
                   >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur.
+          Our journey began with a simple goal—to simplify financial and legal processes for businesses of all sizes.
+We saw how complex paperwork and compliance challenges slowed down entrepreneurs.
+To solve this, we built a team of experts in accounting, taxation, and business consulting.
+Over time, we’ve helped clients with registrations, licenses, GST and tax filings, and CMA reports.
+Today, we are a trusted partner supporting businesses from compliance to expansion.
+Our mission is to empower businesses to grow with confidence and clarity.
                   </Typography>
                 </Box>
               </motion.div>   
@@ -387,8 +387,8 @@ const About = () => {
                       color: "text.secondary",
                     }}
                   >
-                    We make legal, tax, and compliance services simple, easy,
-                    and affordable for growing businesses.  
+                   We aim to simplify legal, tax, and compliance services for growing businesses.
+Our focus is on making these services easy to understand, accessible, and affordable.
                   </Typography>
                   
                 </motion.div>
@@ -406,15 +406,14 @@ const About = () => {
                       variant='body1'
                       sx={{ color: "text.secondary", lineHeight: 1.7 }}
                     >
-                      To make legal and compliance services effortless for every
-                      business and individual in India
+                      By removing complexity, we help entrepreneurs stay compliant with confidence.
                     </Typography>
                     <Typography
                       variant='body1'
                       sx={{ color: "text.secondary", lineHeight: 1.7 }}
                     >
-                      To make legal and compliance services effortless for every
-                      business and individual in India
+                      
+Our vision is to empower every business and individual across India to grow seamlessly.
                     </Typography>
                   </Box>
                 </motion.div>

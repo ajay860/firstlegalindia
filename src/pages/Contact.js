@@ -1,19 +1,19 @@
 import React from "react"
 import {
-  Container,
   Typography,
   Box,
   Grid,
   TextField,
   Button,
   Paper,
-  Divider,
-  InputAdornment,
   useTheme,
   useMediaQuery,
   Breadcrumbs,
   Link,
 } from "@mui/material"
+
+import { Container, Row, Col } from "react-bootstrap"
+
 import {
   LocationOn as LocationIcon,
   Phone as PhoneIcon,
@@ -81,10 +81,11 @@ const Contact = () => {
                   mx: "auto",
                   opacity: 0.9,
                   fontSize: { xs: "1.1rem", md: "1.25rem" },
-                  mb: 5
+                  mb: 5,
+                  textAlign: 'center'
                 }}
               >
-                Have questions or need professional guidance? We're here to
+                Have questions or need professional guidance? <br></br> We're here to
                 help.
               </Typography>
               {breadcrumbsItems.length > 0 && (
@@ -120,9 +121,8 @@ const Contact = () => {
 
       {/* Main Content */}
       <Container maxWidth='lg' sx={{ py: { xs: 6, md: 8 } }}>
-        <Grid className='row' spacing={6}>
-          {/* Contact Information */}
-          <Grid classname='col-sm-4' xs={12} md={5}>
+        <Row>
+          <Col md={6} sm={12}>
             <Paper elevation={0} sx={{ p: 4, height: "100%", borderRadius: 2 }}>
               <Typography
                 variant='h4'
@@ -144,9 +144,8 @@ const Contact = () => {
                       Office Address
                     </Typography>
                     <Typography variant='body1' color='text.secondary'>
-                      s-75 yashwant plaza near railway station
-                      <br />
-                      Indore, Madhya Pradesh 45200
+                      S-75, Yashwant Plaza, Near Railway Station <br />
+            Indore, Madhya Pradesh – 452001
                     </Typography>
                   </Box>
                 </Box>
@@ -160,9 +159,15 @@ const Contact = () => {
                     >
                       Phone
                     </Typography>
-                    <Typography variant='body1' color='text.secondary'>
-                      +91 8818888744
-                    </Typography>
+                   <Typography
+  variant="body1"
+  color="text.secondary"
+  component="a"
+  href="tel:+918818888744"
+  sx={{ textDecoration: "none" }}
+>
+  +91 88188-88744
+</Typography>
                   </Box>
                 </Box>
 
@@ -175,9 +180,15 @@ const Contact = () => {
                     >
                       Email
                     </Typography>
-                    <Typography variant='body1' color='text.secondary'>
-                      psrco131@gmail.com
-                    </Typography>
+                    <Typography
+  variant="body1"
+  color="text.secondary"
+  component="a"
+  href="mailto:psrco131@gmail.com"
+  sx={{ textDecoration: "none" }}
+>
+  psrco131@gmail.com
+</Typography>
                   </Box>
                 </Box>
 
@@ -266,11 +277,9 @@ const Contact = () => {
                 </form>
               </Box> */}
             </Paper>
-          </Grid>
-
-          {/* Appointment Section */}
-          <Grid className='col-sm-7' xs={12} md={7}>
-            <Paper elevation={3} sx={{ p: 4, borderRadius: 2, height: "100%" }}>
+          </Col>
+          <Col md={6} sm={12}>
+            <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
               <Typography
                 variant='body1'
                 paragraph
@@ -325,13 +334,15 @@ const Contact = () => {
                   </Grid>
                 </Grid>
               </form>
-
-              <Box sx={{ mt: 6, textAlign: 'center' }}>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3368.7790216307435!2d75.86720737530479!3d22.71860157938803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjLCsDQzJzA3LjAiTiA3NcKwNTInMTEuMiJF!5e1!3m2!1sen!2sin!4v1765630035634!5m2!1sen!2sin" style={{ width: '100%', height: '450px', border: 0 }}></iframe>
-              </Box>
             </Paper>
-          </Grid>
-        </Grid>
+            <Box sx={{ mt: 6, mb: 6, textAlign: "center" }}>
+            <iframe
+              src='https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3368.7790216307435!2d75.86720737530479!3d22.71860157938803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjLCsDQzJzA3LjAiTiA3NcKwNTInMTEuMiJF!5e1!3m2!1sen!2sin!4v1765630035634!5m2!1sen!2sin'
+              style={{ width: "100%", height: "150px", border: 0 }}
+            ></iframe>
+          </Box>
+          </Col>
+        </Row>
       </Container>
     </Box>
   )

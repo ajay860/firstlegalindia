@@ -1,0 +1,256 @@
+export const MENU_DATA = [
+  // =========================
+  // 1. BUSINESS REGISTRATION
+  // =========================
+  {
+    key: "business-registration",
+    title: "Business Registration",
+    sections: [
+      {
+        heading: "Company Registration",
+        items: [
+          { label: "MSME", link: "/business/msme" },
+          { label: "Limited Liability Partnership", link: "/business/llp-registration" },
+          { label: "One Person Company", link: "/business/opc-registration" },
+          { label: "Sole Proprietorship", link: "/business/sole-proprietorship" },
+          { label: "Nidhi Company", link: "/business/nidhi-company" },
+          { label: "Producer Company", link: "/business/producer-company" },
+          { label: "Partnership Firm", link: "/business/partnership-firm" },
+          { label: "Startup India Registration", link: "/business/startup-india-registration" },
+        ],
+      },
+      {
+        heading: "International Business Setup",
+        items: [
+          { label: "US Incorporation", link: "/international/us-incorporation" },
+          { label: "Singapore Incorporation", link: "/international/singapore-incorporation" },
+          { label: "UK Incorporation", link: "/international/uk-incorporation" },
+          { label: "Netherlands Incorporation", link: "/international/netherlands-incorporation" },
+          { label: "Hong Kong Company Incorporation", link: "/international/hong-kong-incorporation" },
+          { label: "Dubai Company Incorporation", link: "/international/dubai-incorporation" },
+          { label: "International Trademark Registration", link: "/international/trademark-registration" },
+        ],
+      },
+      {
+        heading: "Company Name Services",
+        items: [
+          { label: "Company Name Search", link: "/business/company-name-search" },
+          { label: "Change Company Name", link: "/business/change-company-name" },
+          { label: "Business Name Generator", link: "/business/business-name-generator" },
+        ],
+      },
+      {
+        heading: "Licenses & Registrations",
+        items: [
+          { label: "Digital Signature Certificate", link: "/licenses/dsc" },
+          { label: "Udyam Registration", link: "/licenses/udyam-registration" },
+          { label: "MSME Registration", link: "/licenses/msme-registration" },
+          { label: "ISO Certification", link: "/licenses/iso-certification" },
+          { label: "FSSAI License", link: "/licenses/fssai-license" },
+          { label: "IEC Registration", link: "/licenses/iec-registration" },
+          { label: "Apeda RCMC", link: "/licenses/apeda-rcmc" },
+          { label: "Spice Board Registration", link: "/licenses/spice-board-registration" },
+          { label: "FIEO Registration", link: "/licenses/fieo-registration" },
+          { label: "Legal Metrology", link: "/licenses/legal-metrology" },
+          { label: "Hallmark Registration", link: "/licenses/hallmark-registration" },
+          { label: "BIS Registration", link: "/licenses/bis-registration" },
+          { label: "Liquor License", link: "/licenses/liquor-license" },
+          { label: "CLRA Registration", link: "/licenses/clra-registration" },
+          { label: "AD Code Registration", link: "/licenses/ad-code-registration" },
+          { label: "IRDAI Registration", link: "/licenses/irdai-registration" },
+          { label: "Drug & Cosmetic License", link: "/licenses/drug-cosmetic-license" },
+          { label: "Customs Clearance", link: "/licenses/customs-clearance" },
+        ],
+      },
+    ],
+  },
+
+  // =========================
+  // 2. TAX & COMPLIANCE
+  // =========================
+  {
+    key: "tax-compliance",
+    title: "Tax & Compliance",
+    sections: [
+      {
+        heading: "GST & Indirect Tax",
+        items: [
+          { label: "GST Registration", link: "/gst/gst-registration" },
+          { label: "GST Filing", link: "/gst/gst-filing" },
+          { label: "HSN Code Finder", link: "/gst/hsn-code-finder" },
+          { label: "GST Cancellation", link: "/gst/gst-cancellation" },
+          { label: "GST Revocation", link: "/gst/gst-revocation" },
+        ],
+      },
+      {
+        heading: "Company Changes",
+        items: [
+          { label: "Add a Director", link: "/company-changes/add-director" },
+          { label: "Remove a Director", link: "/company-changes/remove-director" },
+          { label: "Increase Authorized Capital", link: "/company-changes/increase-authorized-capital" },
+          { label: "Change Address", link: "/company-changes/change-address" },
+          { label: "Change Objective / Activity", link: "/company-changes/change-objective" },
+          { label: "Strike Off Company", link: "/company-changes/strike-off-company" },
+          { label: "Close Pvt Ltd Company", link: "/company-changes/close-company" },
+        ],
+      },
+      {
+        heading: "Accounting & Tax",
+        items: [
+          { label: "Accounting & Book-keeping", link: "/accounting/book-keeping" },
+          { label: "TDS Return Filing", link: "/accounting/tds-return-filing" },
+          { label: "Individual Income Tax Filing", link: "/accounting/income-tax-filing" },
+          { label: "ITR for LLP", link: "/accounting/itr-llp" },
+          { label: "Corporate Tax", link: "/accounting/corporate-tax" },
+          { label: "Income Tax Notice", link: "/accounting/income-tax-notice" },
+          { label: "Virtual CFO", link: "/accounting/virtual-cfo" },
+        ],
+      },
+      {
+        heading: "Convert Your Business",
+        items: [
+          { label: "Proprietorship to Pvt Ltd", link: "/conversion/proprietorship-to-pvt-ltd" },
+          { label: "Partnership to LLP", link: "/conversion/partnership-to-llp" },
+          { label: "Private to Public Company", link: "/conversion/private-to-public" },
+          { label: "Private to OPC", link: "/conversion/private-to-opc" },
+        ],
+      },
+    ],
+  },
+
+  // =========================
+  // 3. TRADEMARK & IP
+  // =========================
+  {
+    key: "trademark-ip",
+    title: "Trademark & IP",
+    sections: [
+      {
+        heading: "Trademark",
+        items: [
+          { label: "Trademark Registration", link: "/trademark/registration" },
+          { label: "Trademark Search", link: "/trademark/search" },
+          { label: "Respond to TM Objection", link: "/trademark/objection" },
+          { label: "Well Known Trademark", link: "/trademark/well-known" },
+          { label: "Trademark Watch", link: "/trademark/watch" },
+          { label: "Trademark Renewal", link: "/trademark/renewal" },
+          { label: "Trademark Assignment", link: "/trademark/assignment" },
+          { label: "USA Trademark", link: "/trademark/usa" },
+          { label: "Trademark Class Finder", link: "/trademark/class-finder" },
+        ],
+      },
+      {
+        heading: "Copyright & Patent",
+        items: [
+          { label: "Copyright Registration", link: "/copyright/registration" },
+          { label: "Copyright Music", link: "/copyright/music" },
+          { label: "Indian Patent Search", link: "/patent/search" },
+          { label: "Provisional Patent Application", link: "/patent/provisional" },
+          { label: "Patent Registration", link: "/patent/registration" },
+          { label: "Trademark Infringement", link: "/infringement/trademark" },
+          { label: "Patent Infringement", link: "/infringement/patent" },
+          { label: "Copyright Infringement", link: "/infringement/copyright" },
+        ],
+      },
+    ],
+  },
+
+  // =========================
+  // 4. LAWYER SERVICES
+  // =========================
+  {
+    key: "lawyer-services",
+    title: "Lawyer Services",
+    sections: [
+      {
+        heading: "Lawyer Specialization",
+        items: [
+          { label: "Corporate Lawyers", link: "/lawyers/corporate" },
+          { label: "Criminal Lawyers", link: "/lawyers/criminal" },
+          { label: "GST Lawyers", link: "/lawyers/gst" },
+          { label: "Property Lawyers", link: "/lawyers/property" },
+          { label: "Divorce Lawyers", link: "/lawyers/divorce" },
+          { label: "IP Lawyers", link: "/lawyers/intellectual-property" },
+        ],
+      },
+      {
+        heading: "Legal Notices & Litigation",
+        items: [
+          { label: "Cheque Bounce Case", link: "/litigation/cheque-bounce" },
+          { label: "Property Litigation", link: "/litigation/property" },
+          { label: "Cyber Crime Litigation", link: "/litigation/cyber-crime" },
+          { label: "RERA Complaint", link: "/litigation/rera" },
+          { label: "US Litigation Service", link: "/litigation/us" },
+        ],
+      },
+    ],
+  },
+
+  // =========================
+  // 5. DOCUMENTATION
+  // =========================
+  {
+    key: "documentation",
+    title: "Documentation",
+    sections: [
+      {
+        heading: "Free Legal Documents",
+        items: [
+          { label: "Rental Agreement", link: "/documents/rental-agreement" },
+          { label: "Appointment Letter", link: "/documents/appointment-letter" },
+          { label: "Affidavit Format", link: "/documents/affidavit" },
+          { label: "Power of Attorney", link: "/documents/power-of-attorney" },
+          { label: "Salary Slip", link: "/documents/salary-slip" },
+          { label: "Relieving Letter", link: "/documents/relieving-letter" },
+        ],
+      },
+      {
+        heading: "Business Contracts",
+        items: [
+          { label: "NDA", link: "/contracts/nda" },
+          { label: "Service Level Agreement", link: "/contracts/sla" },
+          { label: "Franchise Agreement", link: "/contracts/franchise" },
+          { label: "Shareholders Agreement", link: "/contracts/shareholders" },
+        ],
+      },
+    ],
+  },
+
+  // =========================
+  // 6. OTHERS
+  // =========================
+  {
+    key: "others",
+    title: "Student Corner",
+    sections: [
+      {
+        heading: "Calculators",
+        items: [
+          { label: "Income Tax Calculator", link: "/calculators/income-tax" },
+          { label: "GST Calculator", link: "/calculators/gst" },
+          { label: "EMI Calculator", link: "/calculators/emi" },
+          { label: "Salary Calculator", link: "/calculators/salary" },
+          { label: "SIP Calculator", link: "/calculators/sip" },
+        ],
+      },
+      {
+        heading: "NGO & Fundraising",
+        items: [
+          { label: "NGO Registration", link: "/ngo/registration" },
+          { label: "Section 8 Company", link: "/ngo/section-8" },
+          { label: "CSR-1 Filing", link: "/ngo/csr-1" },
+          { label: "FCRA Registration", link: "/ngo/fcra" },
+        ],
+      },
+      {
+        heading: "Personal Services",
+        items: [
+          { label: "Name Change", link: "/personal/name-change" },
+          { label: "Marriage Registration", link: "/personal/marriage-registration" },
+          { label: "Court Marriage", link: "/personal/court-marriage" },
+          { label: "Online Police Complaint", link: "/personal/police-complaint" },
+        ],
+      },
+    ],
+  },
+];
