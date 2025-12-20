@@ -28,13 +28,13 @@ const navItems = [
   },
   {
     label: "Services",
-    path: "/admin/services",
+    path: "/admin/home-services",
     icon: <MiscellaneousServicesIcon fontSize="small" />,
     color: "#e8f5e9",
   },
   {
     label: "My Leads",
-    path: "/admin/contacts",
+    path: "/admin/contact",
     icon: <ContactsIcon fontSize="small" />,
     color: "#e1f5fe",
   },

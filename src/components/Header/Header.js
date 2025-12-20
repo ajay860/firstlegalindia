@@ -25,7 +25,7 @@ import PhoneIcon from "@mui/icons-material/Phone"
 import WhatsAppIcon from "@mui/icons-material/WhatsApp"
 import { Link, useLocation } from "react-router-dom"
 import { MENU_DATA } from "../../config/menu.js"
-import SubHeader from '../Header/SubHeader'
+import SubHeader from "../Header/SubHeader"
 
 const Header = () => {
   const theme = useTheme()
@@ -115,9 +115,9 @@ const Header = () => {
 
   const [openCategory, setOpenCategory] = useState(null)
 
-const handleCategoryToggle = (key) => {
-  setOpenCategory(openCategory === key ? null : key)
-}
+  const handleCategoryToggle = (key) => {
+    setOpenCategory(openCategory === key ? null : key)
+  }
 
   const renderDesktopMenu = () => (
     <Box
@@ -382,7 +382,7 @@ const handleCategoryToggle = (key) => {
         ))}
       </List>
       <Divider />
-       {/* DYNAMIC MENU FROM MENU_DATA */}
+      {/* DYNAMIC MENU FROM MENU_DATA */}
       {MENU_DATA.map((category) => (
         <Box key={category.key}>
           {/* CATEGORY TITLE */}
@@ -410,10 +410,10 @@ const handleCategoryToggle = (key) => {
           {/* CATEGORY CONTENT */}
           <Collapse
             in={openCategory === category.key}
-            timeout="auto"
+            timeout='auto'
             unmountOnExit
           >
-            <List component="div" disablePadding>
+            <List component='div' disablePadding>
               {category.sections.map((section) => (
                 <Box key={section.heading}>
                   {/* SECTION HEADING */}
@@ -456,7 +456,7 @@ const handleCategoryToggle = (key) => {
 
           <Divider />
         </Box>
-      ))} 
+      ))}
       <Divider />
       <Box sx={{ p: 2, textAlign: "center" }}>
         <IconButton
@@ -527,13 +527,13 @@ const handleCategoryToggle = (key) => {
     >
       <Container maxWidth='lg'>
         <Toolbar disableGutters>
-          <Link to="/">
-  <img
-    src="/logo.png"
-    alt="Logo"
-    style={{ height: 40, marginRight: 16, cursor: "pointer" }}
-  />
-</Link>
+          <Link to='/'>
+            <img
+              src='/logo.png'
+              alt='Logo'
+              style={{ height: 40, marginRight: 16, cursor: "pointer" }}
+            />
+          </Link>
 
           {!isMobile && renderDesktopMenu()}
 
@@ -595,7 +595,7 @@ const handleCategoryToggle = (key) => {
           </Box>
         </Toolbar>
       </Container>
-      {!isMobile && <SubHeader /> }
+      {!isMobile && <SubHeader />}
       <Drawer
         anchor='right'
         open={mobileOpen}
