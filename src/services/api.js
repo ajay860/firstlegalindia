@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://localhost:5000';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -48,6 +48,29 @@ export const appointmentAPI = {
   getAvailableSlots: async (date) => {
     try {
       const response = await api.get(`/appointments/available-slots?date=${date}`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
+};
+
+
+export const authAPI = {
+  login: async (loginData) => {
+    try {
+      const response = await api.post('/admin/login', loginData);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
+};
+
+export const serviceAPI = {
+  serivce: async (data) => {
+    try {
+      const response = await api.post('/service/create', data);
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;

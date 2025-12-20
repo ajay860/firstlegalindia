@@ -19,6 +19,15 @@ import Contact from './pages/Contact';
 import BookAppointment from './pages/BookAppointment';
 import IndustryDetail from './pages/industry/IndustryDetail';
 
+import ProtectedRoute from "./routes/ProtectedRoute";
+import AdminLayout from "./components/Layout/AdminLayout";
+
+import AdminLogin from "./pages/admin/Login";
+import Dashboard from "./pages/admin/Dashboard";
+
+import ServiceDashboard from "./pages/admin/ServiceDashboard";
+import ContactAdmin from "./pages/admin/Contact";
+
 // Create a theme instance
 const theme = createTheme({
   palette: {
@@ -89,8 +98,16 @@ function App() {
               <Route path="resources" element={<Resources className="page-enter" />} />
               <Route path="contact" element={<Contact className="page-enter" />} />
               <Route path="book-appointment" element={<BookAppointment className="page-enter" />} />
-              <Route path="industry" element={<IndustryDetail className="page-enter"/>} />
-              <Route path="industries/asset-management" element={<IndustryDetail className="page-enter"/>} />
+            </Route>
+            
+            <Route path="/admin/login" element={<AdminLogin />} />
+
+            <Route element={<ProtectedRoute />}>
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index  path="/admin/dashboard" element={<Dashboard />} />
+                <Route path="/admin/service" element={<ServiceDashboard />} />
+                <Route path="/admin/contact" element={<ContactAdmin />} />
+              </Route>
             </Route>
           </Routes>
         </Router>
