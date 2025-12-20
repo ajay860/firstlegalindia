@@ -12,26 +12,38 @@ import {
   Avatar,
 } from "@mui/material";
 
-import HomeIcon from "@mui/icons-material/Home";
-import PersonIcon from "@mui/icons-material/Person";
+// Icons
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
+import ContactsIcon from "@mui/icons-material/Contacts";
 
 const drawerWidth = 280;
 
 const navItems = [
-  { label: "Home", path: "/admin/dashboard", icon: <HomeIcon />, color: "#e3f2fd" },
-  { label: "Service", path: "/admin/service", icon: <PersonIcon />, color: "#e8f5e9" },
-  // { label: "Security & sign-in", path: "/admin/security", icon: <SecurityIcon />, color: "#e1f5fe" },
-  // { label: "Password Manager", path: "/admin/passwords", icon: <KeyIcon />, color: "#e0f2f1" },
-  // { label: "Your devices", path: "/admin/devices", icon: <DevicesIcon />, color: "#e3f2fd" },
-  // { label: "Data & privacy", path: "/admin/privacy", icon: <PrivacyTipIcon />, color: "#ede7f6" },
-  // { label: "People & sharing", path: "/admin/people", icon: <PeopleIcon />, color: "#fce4ec" },
-  // { label: "Payments & subscriptions", path: "/admin/payments", icon: <PaymentsIcon />, color: "#fff3e0" },
+  {
+    label: "Dashboard",
+    path: "/admin/dashboard",
+    icon: <DashboardIcon fontSize="small" />,
+    color: "#e3f2fd",
+  },
+  {
+    label: "Services",
+    path: "/admin/services",
+    icon: <MiscellaneousServicesIcon fontSize="small" />,
+    color: "#e8f5e9",
+  },
+  {
+    label: "My Leads",
+    path: "/admin/contacts",
+    icon: <ContactsIcon fontSize="small" />,
+    color: "#e1f5fe",
+  },
 ];
 
 const AdminLayout = () => {
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
-      {/* Sidebar */}
+      {/* ================= Sidebar ================= */}
       <Drawer
         variant="permanent"
         sx={{
@@ -40,14 +52,14 @@ const AdminLayout = () => {
           [`& .MuiDrawer-paper`]: {
             width: drawerWidth,
             boxSizing: "border-box",
-            borderRight: "0px solid #e5e7eb",
-            // bgcolor: "#f8fafc",
+            borderRight: "1px solid #e5e7eb",
+            bgcolor: "#ffffff",
           },
         }}
       >
-        <Toolbar>
-          <Typography variant="h6">
-            <span style={{fontWeight:600}}>First Legal</span> India
+        <Toolbar sx={{ px: 2 }}>
+          <Typography variant="h6" noWrap>
+            <span style={{ fontWeight: 600 }}>First Legal</span> India
           </Typography>
         </Toolbar>
 
@@ -61,9 +73,15 @@ const AdminLayout = () => {
                 borderRadius: "999px",
                 mb: 0.5,
                 px: 2,
+                color: "#374151",
                 "&.active": {
                   bgcolor: "#e8f0fe",
                   fontWeight: 600,
+                  color: "#1e40af",
+                  "& .MuiAvatar-root": {
+                    bgcolor: "#1e40af",
+                    color: "#ffffff",
+                  },
                 },
               }}
             >
@@ -92,9 +110,16 @@ const AdminLayout = () => {
         </List>
       </Drawer>
 
-      {/* Content */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        {/* <Toolbar /> */}
+      {/* ================= Content ================= */}
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          bgcolor: "#f9fafb",
+          minHeight: "100vh",
+        }}
+      >
         <Outlet />
       </Box>
     </Box>

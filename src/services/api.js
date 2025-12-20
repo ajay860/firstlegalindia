@@ -35,26 +35,6 @@ export const contactAPI = {
   },
 };
 
-// Appointment API
-export const appointmentAPI = {
-  bookAppointment: async (appointmentData) => {
-    try {
-      const response = await api.post('/appointments', appointmentData);
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || error.message;
-    }
-  },
-  getAvailableSlots: async (date) => {
-    try {
-      const response = await api.get(`/appointments/available-slots?date=${date}`);
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || error.message;
-    }
-  },
-};
-
 
 export const authAPI = {
   login: async (loginData) => {
@@ -67,15 +47,5 @@ export const authAPI = {
   },
 };
 
-export const serviceAPI = {
-  serivce: async (data) => {
-    try {
-      const response = await api.post('/service/create', data);
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || error.message;
-    }
-  },
-};
 
 export default api;

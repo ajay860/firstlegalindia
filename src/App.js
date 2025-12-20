@@ -16,7 +16,6 @@ import Services from './pages/services';
 import ServiceDetail from './pages/services/detail/ServiceDetail';
 import Resources from './pages/resources';
 import Contact from './pages/Contact';
-import BookAppointment from './pages/BookAppointment';
 import IndustryDetail from './pages/industry/IndustryDetail';
 
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -97,7 +96,6 @@ function App() {
               </Route>
               <Route path="resources" element={<Resources className="page-enter" />} />
               <Route path="contact" element={<Contact className="page-enter" />} />
-              <Route path="book-appointment" element={<BookAppointment className="page-enter" />} />
             </Route>
             
             <Route path="/admin/login" element={<AdminLogin />} />

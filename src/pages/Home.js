@@ -1,43 +1,28 @@
-// src/pages/Home.js
-import React from 'react';
 import { 
   Container, 
   Typography, 
-  Box, 
-  Button, 
+  Box,  
   Grid, 
-  Card, 
-  CardContent, 
   List, 
   ListItem, 
   ListItemIcon, 
   ListItemText,
   useTheme,
   useMediaQuery,
-  Paper,
-  Divider
 } from '@mui/material';
+
+import { Row, Col } from "react-bootstrap"
+
 import { 
   Check as CheckIcon, 
-  Groups as GroupsIcon,
-  GppGood as SecurityIcon,
-  Receipt as ReceiptIcon,
-  AccessTime as TimeIcon,
-  Business as BusinessIcon,
-  Person as PersonIcon,
-  Store as StoreIcon,
-  RocketLaunch as StartupIcon,
-  Apartment as CorpIcon,
-  VolunteerActivism as NgoIcon,
-  Search as SearchIcon,
-  TrendingUp as TrendingUpIcon
 } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+
 import HeroSlider from '../components/HeroSlider';
 import HomeAboutUs from '../components/Home/HomeAbout';
 import ServicesSection from '../components/Home/ServicesSection';
 import WhyChooseUs from '../components/Home/WhyChooseUs';
 import Testimonials from '../components/Home/Testimonials'
+import ContactForm from '../components/ContactForm';
 
 const Home = () => {
   const theme = useTheme();
@@ -89,12 +74,6 @@ const Home = () => {
       </Box>
       <Box sx={{ py: 8, bgcolor: 'grey.50' }}>
         <Container maxWidth="lg">
-          {/* <Box textAlign="center" mb={6}>
-            <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 700 }}>
-              Our Core Strengths
-            </Typography>
-          </Box> */}
-          
           <Grid container spacing={4} justifyContent="center">
             {strengths.map((strength, index) => (
               <Grid item xs={6} sm={3} key={index}>
@@ -114,8 +93,8 @@ const Home = () => {
       {/* Why Choose Us */}
       <Box sx={{ py: 8, bgcolor: 'background.paper' }}>
         <Container maxWidth="lg">
-          <Grid container spacing={6} alignItems="center">
-            <Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
+          <Row>
+            <Col md={6} sm={12}>
               <Box sx={{ textAlign:'center' }}>
                 <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 700, textAlign: { xs: 'center', md: 'left' }  }}>
                   Who We Serve
@@ -138,8 +117,8 @@ const Home = () => {
                   ))}
                 </List>
               </Box>
-            </Grid>
-            <Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
+            </Col>
+            <Col md={6} sm={12}>
               <Box textAlign="center" mb={6}>
                 <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 700 }}>
                   Find Advisor
@@ -147,9 +126,10 @@ const Home = () => {
                 <Typography variant="p" component="p" gutterBottom>
                   We would love to hear from you
                 </Typography>
+                <ContactForm></ContactForm>
               </Box>
-            </Grid>
-          </Grid>
+            </Col>
+          </Row>
         </Container>
       </Box>
 
@@ -161,39 +141,6 @@ const Home = () => {
           </Grid>
         </Container>
       </Box>
-
-      {/* CTA Section */}
-      {/* <Box sx={{ py: 8, bgcolor: 'primary.main', color: 'white' }}>
-        <Container maxWidth="md" sx={{ textAlign: 'center' }}>
-          <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 700 }}>
-            Ready to Simplify Your Financial Needs?
-          </Typography>
-          <Typography variant="h6" sx={{ mb: 6, opacity: 0.9 }}>
-            Book a Free Appointment and talk to our expert Chartered Accountant today.
-          </Typography>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            component={Link}
-            to="/contact"
-            sx={{ 
-              px: 5,
-              py: 1.5,
-              fontSize: '1.1rem',
-              fontWeight: 600,
-              borderRadius: '50px',
-              textTransform: 'none',
-              '&:hover': {
-                transform: 'translateY(-2px)',
-                boxShadow: 6,
-              }
-            }}
-          >
-            Book Free Consultation
-          </Button>
-        </Container>
-      </Box> */}
     </Box>
   );
 };

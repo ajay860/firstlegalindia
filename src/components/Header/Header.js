@@ -491,7 +491,7 @@ const handleCategoryToggle = (key) => {
           variant='contained'
           color='primary'
           component={Link}
-          to='/book-appointment'
+          to='/contact'
           fullWidth
           sx={{ mt: 2 }}
           onClick={handleDrawerToggle}
@@ -574,7 +574,7 @@ const handleCategoryToggle = (key) => {
                   variant='contained'
                   color='primary'
                   component={Link}
-                  to='/book-appointment'
+                  to='/contact'
                   sx={{ ml: 1 }}
                 >
                   Talk Expert
