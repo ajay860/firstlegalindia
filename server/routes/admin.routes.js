@@ -4,7 +4,7 @@ const { loginAdmin } = require("../controllers/admin.controller");
 
 /**
  * @swagger
- * /admin/login:
+ * /api/admin/login:
  *   post:
  *     summary: Admin login
  *     tags: [Admin]

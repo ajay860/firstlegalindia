@@ -1,4 +1,3 @@
-// src/components/Header/ServicesHeader.js
 import React, { useState } from 'react';
 import {
   AppBar,
@@ -7,273 +6,212 @@ import {
   Typography,
   Button,
   Container,
-  Menu,
-  MenuItem,
   List,
   ListItem,
   ListItemText,
-  Collapse,
-  Divider,
   useTheme,
   useMediaQuery,
   IconButton,
-  Drawer
+  Drawer,
+  Collapse,
+  Divider,
+  Paper,
+  Popper
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { MENU_DATA } from '../../config/menu';
 
 const ServicesHeader = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
-  const location = useLocation();
+  const [activeMenu, setActiveMenu] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleToggle = (item) => {
-    setExpandedItems(prev => ({
-      ...prev,
-      [item]: !prev[item]
-    }));
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+
+  const handleToggle = (key) => {
+    setExpandedItems((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const menuData = [
-    {
-      title: 'Business Registration',
-      submenu: [
-        {
-          title: 'Company Registration',
-          items: [
-            'Private Limited Company',
-            'Limited Liability Partnership',
-            'One Person Company',
-            'Sole Proprietorship',
-            'Nidhi Company',
-            'Producer Company',
-            'Partnership Firm',
-            'Startup India Registration'
-          ]
-        },
-        {
-          title: 'International Business Setup',
-          items: [
-            'US Incorporation',
-            'Singapore Incorporation',
-            'UK Incorporation',
-            'Netherlands Incorporation',
-            'Hong Kong Company Incorporation',
-            'Dubai Company Incorporation',
-            'International Trademark Registration'
-          ]
-        },
-        {
-          title: 'Company Name Search',
-          items: [
-            'Company Name Search',
-            'Change Company Name',
-            'Business Name Generator'
-          ]
-        }
-      ]
-    },
-    {
-      title: 'Tax & Compliance',
-      submenu: [
-        {
-          title: 'GST and Other Indirect Tax',
-          items: [
-            'GST Registration',
-            'GST Filing',
-            'HSN Code Finder',
-            'GST Cancellation and Revocation',
-            'GST Cancellation'
-          ]
-        },
-      ]
-    },
-  ];
-
+  // ===== MOBILE MENU =====
   const renderMobileMenu = () => (
     <Box sx={{ width: 300, p: 2 }}>
-      {menuData.map((section, index) => (
-        <div key={index}>
-          <ListItem 
-            button 
-            onClick={() => handleToggle(`section-${index}`)}
-            sx={{ 
-              bgcolor: expandedItems[`section-${index}`] ? 'rgba(0, 0, 0, 0.04)' : 'transparent',
-              mb: 1
-            }}
-          >
-            <ListItemText 
-              primary={section.title} 
-              primaryTypographyProps={{ fontWeight: 'bold' }}
-            />
-            {expandedItems[`section-${index}`] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+      {MENU_DATA.map((section) => (
+        <Box key={section.key}>
+          <ListItem button onClick={() => handleToggle(section.key)}>
+            <ListItemText primary={section.title} />
+            {expandedItems[section.key] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </ListItem>
-          <Collapse in={expandedItems[`section-${index}`]} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {section.submenu.map((subsection, subIndex) => (
-                <div key={subIndex}>
-                  <ListItem 
-                    button 
-                    onClick={() => handleToggle(`subsection-${index}-${subIndex}`)}
-                    sx={{ pl: 4, bgcolor: 'rgba(0, 0, 0, 0.02)' }}
+
+          <Collapse in={expandedItems[section.key]} unmountOnExit>
+            <List disablePadding>
+              {section.sections.map((sub, i) => (
+                <Box key={i}>
+                  <ListItem
+                    button
+                    onClick={() => handleToggle(`${section.key}-${i}`)}
+                    sx={{ pl: 4 }}
                   >
-                    <ListItemText 
-                      primary={subsection.title} 
-                      primaryTypographyProps={{ fontWeight: 'medium' }}
-                    />
-                    {expandedItems[`subsection-${index}-${subIndex}`] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                    <ListItemText primary={sub.heading} />
                   </ListItem>
-                  <Collapse in={expandedItems[`subsection-${index}-${subIndex}`]} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                      {subsection.items.map((item, itemIndex) => (
-                        <ListItem 
-                          key={itemIndex} 
-                          button 
+
+                  <Collapse in={expandedItems[`${section.key}-${i}`]} unmountOnExit>
+                    <List disablePadding>
+                      {sub.items.map((item, idx) => (
+                        <ListItem
+                          key={idx}
+                          button
                           component={Link}
-                          to={`/services/${item.toLowerCase().replace(/\s+/g, '-')}`}
+                          to={item.link}
                           onClick={handleDrawerToggle}
                           sx={{ pl: 8 }}
                         >
-                          <ListItemText primary={item} />
+                          <ListItemText primary={item.label} />
                         </ListItem>
                       ))}
                     </List>
                   </Collapse>
-                </div>
+                </Box>
               ))}
             </List>
           </Collapse>
-          <Divider sx={{ my: 1 }} />
-        </div>
+          <Divider />
+        </Box>
       ))}
     </Box>
   );
 
+  // ===== DESKTOP MENU =====
   const renderDesktopMenu = () => (
-    <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'center' }}>
-      {menuData.map((section, index) => (
-        <div key={index} style={{ position: 'relative' }}>
-          <Button
-            color="inherit"
-            onClick={() => handleToggle(`section-${index}`)}
-            endIcon={expandedItems[`section-${index}`] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-            sx={{ mx: 1, fontWeight: 'bold' }}
-          >
-            {section.title}
-          </Button>
-          <Menu
-            open={!!expandedItems[`section-${index}`]}
-            onClose={() => handleToggle(`section-${index}`)}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-            PaperProps={{
-              style: {
-                width: '80vw',
-                maxWidth: '1200px',
-                padding: '20px',
-                maxHeight: '80vh',
-                overflow: 'auto',
-              }
-            }}
-          >
-            <Box display="grid" gridTemplateColumns="repeat(4, 1fr)" gap={3}>
-              {section.submenu.map((subsection, subIndex) => (
-                <Box key={subIndex}>
-                  <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
-                    {subsection.title}
-                  </Typography>
-                  <List>
-                    {subsection.items.map((item, itemIndex) => (
-                      <ListItem 
-                        key={itemIndex} 
-                        button 
-                        component={Link}
-                        to={`/services/${item.toLowerCase().replace(/\s+/g, '-')}`}
-                        onClick={() => handleToggle(`section-${index}`)}
-                        sx={{ p: '8px 0' }}
-                      >
-                        <ListItemText primary={item} />
-                      </ListItem>
-                    ))}
-                  </List>
-                </Box>
-              ))}
-            </Box>
-          </Menu>
-        </div>
+    <Box sx={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}>
+      {MENU_DATA.map((section) => (
+        <Button
+          key={section.key}
+          color="inherit"
+          sx={{ fontWeight: 'bold', mx: 1 }}
+          onMouseEnter={(e) => {
+            setActiveMenu(section.key);
+            setAnchorEl(e.currentTarget);
+          }}
+          endIcon={
+            activeMenu === section.key ? <ExpandLessIcon /> : <ExpandMoreIcon />
+          }
+        >
+          {section.title}
+        </Button>
       ))}
     </Box>
   );
 
   return (
-    <AppBar position="static" color="default" elevation={1}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-            <Typography
-              variant="h6"
-              component={Link}
-              to="/"
-              sx={{
-                mr: 2,
-                fontWeight: 700,
-                color: 'inherit',
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center'
-              }}
-            >
-              <img 
-                src="/logo.png" 
-                alt="Logo" 
-                style={{ height: 40, marginRight: 10 }} 
-              />
-              Your Brand
-            </Typography>
-          </Box>
+    // 🔥 SINGLE HOVER ZONE
+    <Box
+      onMouseLeave={() => {
+        setActiveMenu(null);
+        setAnchorEl(null);
+      }}
+       sx={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 10
+       }}
+    >
+      <AppBar position="sticky" color="default"   elevation={0}
+      sx={{
+        borderBottom: 'none',          // remove border if any
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)', // ✅ custom shadow
+        zIndex: (theme) => theme.zIndex.appBar,
+        bgcolor: 'white',
+      }}>
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Box sx={{ flexGrow: 1 }}>
+              <Typography
+                component={Link}
+                to="/"
+                sx={{ textDecoration: 'none', color: 'inherit' }}
+              >
+                <img src="/logo.png" alt="Logo" height={40} />
+              </Typography>
+            </Box>
 
-          {isMobile ? (
-            <>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ ml: 'auto' }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Drawer
-                anchor="right"
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                ModalProps={{
-                  keepMounted: true,
-                }}
-              >
-                {renderMobileMenu()}
-              </Drawer>
-            </>
-          ) : (
-            renderDesktopMenu()
-          )}
-        </Toolbar>
-      </Container>
-    </AppBar>
+            {isMobile ? (
+              <>
+                <IconButton onClick={handleDrawerToggle}>
+                  <MenuIcon />
+                </IconButton>
+                <Drawer
+                  anchor="right"
+                  open={mobileOpen}
+                  onClose={handleDrawerToggle}
+                >
+                  {renderMobileMenu()}
+                </Drawer>
+              </>
+            ) : (
+              renderDesktopMenu()
+            )}
+          </Toolbar>
+        </Container>
+      </AppBar>
+
+      {/* ===== MEGA DROPDOWN ===== */}
+      <Popper
+        open={Boolean(activeMenu)}
+        anchorEl={anchorEl}
+        placement="bottom-start"
+        disablePortal
+        sx={{
+          width: '100%',
+          left: '0 !important',
+          zIndex: theme.zIndex.appBar - 1,
+        }}
+      >
+        <Paper sx={{ borderRadius: 0, py: 4 }}>
+          <Container maxWidth="lg">
+            <Box
+              display="grid"
+              gridTemplateColumns={{
+                xs: '1fr',
+                sm: 'repeat(2, 1fr)',
+                md: 'repeat(4, 1fr)',
+              }}
+              gap={4}
+            >
+              {MENU_DATA.find((m) => m.key === activeMenu)?.sections.map(
+                (sub, i) => (
+                  <Box key={i}>
+                    <Typography fontWeight="bold" gutterBottom>
+                      {sub.heading}
+                    </Typography>
+                    <List>
+                      {sub.items.map((item, idx) => (
+                        <ListItem
+                          key={idx}
+                          button
+                          component={Link}
+                          to={item.link}
+                          onClick={() => setActiveMenu(null)}
+                          sx={{ p: 0 }}
+                        >
+                          <ListItemText primary={item.label} />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Box>
+                )
+              )}
+            </Box>
+          </Container>
+        </Paper>
+      </Popper>
+    </Box>
   );
 };
 

@@ -1,53 +1,55 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-
+import { useDispatch, useSelector } from "react-redux";
 import {
   Container,
   Typography,
   Box,
-  Divider,
   Breadcrumbs,
   TextField,
   InputAdornment,
   IconButton,
   Link,
+  CircularProgress,
+  Paper,
+  Divider,
 } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-import { MENU_DATA } from '../../config/menu';
+import { getMegaMenus } from "../../features/megaMenuSlice";
 
 const Services = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const dispatch = useDispatch();
+  const { loading, error, list } = useSelector((state) => state.megaMenu);
+
+  useEffect(() => {
+    dispatch(getMegaMenus());
+  }, [dispatch]);
 
   /* ================= DATA PROCESSING ================= */
-
-  // ✅ De-duplicate topics by link
   const allTopics = useMemo(() => {
-    const map = new Map();
-
-    MENU_DATA.forEach(category => {
-      category.sections.forEach(section => {
-        section.items.forEach(item => {
-          if (!map.has(item.link)) {
-            map.set(item.link, {
-              ...item,
-              category: category.title,
-              section: section.heading,
-            });
-          }
+    const topics = [];
+    list.forEach(menu => {
+      menu.data?.sections?.forEach(section => {
+        section.items?.forEach(item => {
+          topics.push({
+            ...item,
+            category: menu.title,
+            section: section.heading,
+          });
         });
       });
     });
-
-    return Array.from(map.values());
-  }, []);
+    return topics;
+  }, [list]);
 
   const filteredTopics = useMemo(() => {
     if (!searchTerm) return allTopics;
     const term = searchTerm.toLowerCase();
-
     return allTopics.filter(topic =>
       topic.label.toLowerCase().includes(term) ||
       topic.category.toLowerCase().includes(term) ||
@@ -56,55 +58,54 @@ const Services = () => {
   }, [searchTerm, allTopics]);
 
   const groupedTopics = useMemo(() => {
-    return filteredTopics.reduce((acc, topic) => {
-      acc[topic.category] = acc[topic.category] || [];
-      acc[topic.category].push(topic);
-      return acc;
-    }, {});
+    const grouped = {};
+    filteredTopics.forEach(topic => {
+      if (!grouped[topic.category]) grouped[topic.category] = {};
+      if (!grouped[topic.category][topic.section]) grouped[topic.category][topic.section] = [];
+      grouped[topic.category][topic.section].push(topic);
+    });
+    return grouped;
   }, [filteredTopics]);
 
   /* ================= UI ================= */
-
   return (
     <Box>
-
       <Container maxWidth="lg" sx={{ py: 6 }}>
+        {loading && (
+          <Box textAlign="center" py={10}>
+            <CircularProgress />
+          </Box>
+        )}
 
+        {error && (
+          <Box textAlign="center" py={10}>
+            <Typography color="error">{error}</Typography>
+          </Box>
+        )}
+        
         {/* Breadcrumbs */}
         <Breadcrumbs sx={{ mb: 4 }}>
           <Link component={RouterLink} to="/" underline="hover">
             Home
           </Link>
-          <Typography color="text.primary">Topics</Typography>
+          <Typography color="text.primary">Services</Typography>
         </Breadcrumbs>
 
         {/* Header */}
         <Box textAlign="center" mb={6}>
           <Typography variant="h3" fontWeight={700} gutterBottom>
-            Browse Topics
+            Browse Services
           </Typography>
           <Typography color="text.secondary" maxWidth={800} mx="auto">
-            Quickly find topics by searching across categories, sections, and services.
+            Quickly find services by searching across categories, sections, and topics.
           </Typography>
         </Box>
 
         {/* Search */}
-        <Box
-          sx={{
-            maxWidth: 600,
-            mx: 'auto',
-            mb: 8,
-            position: 'sticky',
-            top: 80,
-            zIndex: 10,
-            // bgcolor: 'background.default',
-            py: 2,
-            mt: 5
-          }}
-        >
+        <Box sx={{ maxWidth: 600, mx: 'auto', mb: 8, py: 2 }}>
           <TextField
             fullWidth
-            placeholder="Search topics, categories, or sections..."
+            placeholder="Search services, categories, or sections..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             InputProps={{
@@ -125,106 +126,113 @@ const Services = () => {
               '& .MuiOutlinedInput-root': {
                 borderRadius: '999px',
                 bgcolor: 'background.paper',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.06)',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
               },
             }}
           />
         </Box>
 
         {/* Categories */}
-        {Object.entries(groupedTopics).map(([category, topics]) => (
-          <Box
+        {Object.entries(groupedTopics).map(([category, sections]) => (
+          <Paper
             key={category}
             sx={{
-              mb: 8,
-              borderRadius: 3,
+              mb: 6,
+              borderRadius: 4,
               overflow: 'hidden',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
-              bgcolor: 'background.paper',
+              boxShadow: '0 8px 30px rgba(0,0,0,0.08)',
+              background: 'linear-gradient(145deg, #f9f9f9, #e8f0ff)',
             }}
           >
             {/* Category Header */}
             <Box
               sx={{
-                bgcolor: 'grey.900',
-                color: 'common.white',
+                bgcolor: 'primary.main',
+                color: 'white',
                 px: { xs: 3, md: 5 },
                 py: { xs: 4, md: 5 },
                 textAlign: 'center',
+                borderBottom: '4px solid #ffffff33',
               }}
             >
-              <Typography variant="h4" fontWeight={600} gutterBottom>
-                {category}
-              </Typography>
+              <Typography variant="h4" fontWeight={700}>{category}</Typography>
               <Typography sx={{ opacity: 0.85 }}>
-                {topics.length} topics available
+                {allTopics.filter(t => t.category === category).length} services available
               </Typography>
             </Box>
 
-            {/* Topic List */}
-            <Box sx={{ px: { xs: 3, md: 5 }, py: 4 }}>
-              <Box
-                component="ul"
-                sx={{
-                  listStyle: 'none',
-                  p: 0,
-                  m: 0,
-                  display: 'grid',
-                  gridTemplateColumns: {
-                    xs: '1fr',
-                    md: '1fr 1fr 1fr',
-                  },
-                  gap: 3,
-                }}
-              >
-                {topics.map(topic => (
-                  <Box
-                    component="li"
-                    key={topic.link}
-                    sx={{
-                      borderLeft: '4px solid',
-                      borderColor: 'primary.main',
-                      pl: 2,
-                      transition: 'all 0.2s ease',
-                      '&:hover': {
-                        transform: 'translateX(4px)',
-                      },
-                    }}
-                  >
-                    <Typography
-                      component={RouterLink}
-                      to={topic.link}
+            {/* Sections */}
+            {Object.entries(sections).map(([sectionName, topics]) => (
+              <Box key={sectionName} sx={{ px: { xs: 3, md: 5 }, py: 4 }}>
+                <Typography
+                  variant="h6"
+                  fontWeight={600}
+                  mb={3}
+                  sx={{
+                    borderBottom: '2px solid #cfd8dc',
+                    pb: 1,
+                    color: 'text.secondary',
+                  }}
+                >
+                  {sectionName}
+                </Typography>
+
+                <Box
+                  component="ul"
+                  sx={{
+                    listStyle: 'none',
+                    p: 0,
+                    m: 0,
+                    display: 'grid',
+                    gridTemplateColumns: { xs: '1fr', md: '1fr 1fr 1fr' },
+                    gap: 3,
+                  }}
+                >
+                  {topics.map(topic => (
+                    <Paper
+                      component="li"
+                      key={topic.link}
+                      elevation={0}
                       sx={{
-                        textDecoration: 'none',
-                        fontWeight: 600,
-                        color: 'text.primary',
+                        p: 3,
+                        borderRadius: 2,
+                        border: '1px solid #e0e0e0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        transition: 'all 0.3s ease',
                         '&:hover': {
-                          color: 'primary.main',
+                          transform: 'translateY(-4px)',
+                          boxShadow: '0 10px 25px rgba(0,0,0,0.12)',
                         },
                       }}
                     >
-                      {topic.label}
-                    </Typography>
-
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ mt: 0.5 }}
-                    >
-                      {topic.section}
-                    </Typography>
-                  </Box>
-                ))}
+                      <CheckCircleIcon color="primary" sx={{ mr: 2 }} />
+                      <Typography
+                        component={RouterLink}
+                        to={topic.link}
+                        sx={{
+                          textDecoration: 'none',
+                          fontWeight: 600,
+                          fontSize: '1rem',
+                          color: 'text.primary',
+                          '&:hover': { color: 'primary.main' },
+                        }}
+                      >
+                        {topic.label}
+                      </Typography>
+                    </Paper>
+                  ))}
+                </Box>
               </Box>
-            </Box>
-          </Box>
+            ))}
+          </Paper>
         ))}
 
         {/* Empty State */}
         {filteredTopics.length === 0 && (
           <Box textAlign="center" py={10}>
             <Typography variant="h6" gutterBottom>
-              No topics found 😕
+              No services found 😕
             </Typography>
             <Typography color="text.secondary">
               Try searching by category name, section, or keyword.
@@ -234,9 +242,9 @@ const Services = () => {
       </Container>
 
       {/* CTA */}
-      <Box bgcolor="grey.100" py={{ xs: 8, md: 10 }}>
+      <Box bgcolor="primary.light" py={{ xs: 10, md: 12 }}>
         <Container maxWidth="md" textAlign="center">
-          <Typography variant="h3" fontWeight={700} gutterBottom>
+          <Typography variant="h3" fontWeight={700} gutterBottom color="primary.dark">
             Ready to Get Started?
           </Typography>
           <Typography variant="h6" color="text.secondary">

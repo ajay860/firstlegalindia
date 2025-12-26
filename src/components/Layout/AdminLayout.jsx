@@ -14,8 +14,13 @@ import {
 
 // Icons
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
+import CategoryIcon from "@mui/icons-material/Category";
+import ViewListIcon from "@mui/icons-material/ViewList";
+import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+import DesignServicesIcon from "@mui/icons-material/DesignServices";
+import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import ContactsIcon from "@mui/icons-material/Contacts";
+
 
 const drawerWidth = 280;
 
@@ -27,10 +32,34 @@ const navItems = [
     color: "#e3f2fd",
   },
   {
-    label: "Services",
-    path: "/admin/home-services",
-    icon: <MiscellaneousServicesIcon fontSize="small" />,
+    label: "Add Category",
+    path: "/admin/add-category",
+    icon: <CategoryIcon fontSize="small" />,
     color: "#e8f5e9",
+  },
+  {
+    label: "Categories",
+    path: "/admin/categories",
+    icon: <ViewListIcon fontSize="small" />,
+    color: "#f3e5f5",
+  },
+  {
+    label: "Add Services",
+    path: "/admin/add-services",
+    icon: <AddBusinessIcon fontSize="small" />,
+    color: "#fff3e0",
+  },
+  {
+    label: "All Services",
+    path: "/admin/all-services",
+    icon: <DesignServicesIcon fontSize="small" />,
+    color: "#ede7f6",
+  },
+  {
+    label: "Home Page Services",
+    path: "/admin/service-slider-data",
+    icon: <HomeRepairServiceIcon fontSize="small" />,
+    color: "#e0f2f1",
   },
   {
     label: "My Leads",
@@ -39,7 +68,6 @@ const navItems = [
     color: "#e1f5fe",
   },
 ];
-
 const AdminLayout = () => {
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
@@ -57,11 +85,11 @@ const AdminLayout = () => {
           },
         }}
       >
-        <Toolbar sx={{ px: 2 }}>
+        {/* <Toolbar sx={{ px: 2 }}>
           <Typography variant="h6" noWrap>
             <span style={{ fontWeight: 600 }}>First Legal</span> India
           </Typography>
-        </Toolbar>
+        </Toolbar> */}
 
         <List sx={{ px: 1 }}>
           {navItems.map((item) => (

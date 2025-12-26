@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
-import Slider from "react-slick";
-import { Box, useTheme, useMediaQuery, Button } from "@mui/material";
-import ServiceCard from "./ServiceCard";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import React, { useState, useEffect } from "react"
+import Slider from "react-slick"
+import { Box, useTheme, useMediaQuery, Button } from "@mui/material"
+import ServiceCard from "./ServiceCard"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 
 const ServicesSlider = ({ services }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const [mounted, setMounted] = useState(false);
-  const sliderRef = React.useRef(null); // ref to control slider
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"))
+  const [mounted, setMounted] = useState(false)
+  const sliderRef = React.useRef(null) // ref to control slider
 
   useEffect(() => {
-    setMounted(true); // only render slider after client mounts
-  }, []);
+    setMounted(true) // only render slider after client mounts
+  }, [])
 
-  if (!mounted) return null;
+  if (!mounted) return null
 
   const settings = {
     dots: false,
@@ -32,7 +32,17 @@ const ServicesSlider = ({ services }) => {
       { breakpoint: 960, settings: { slidesToShow: 2 } },
       { breakpoint: 600, settings: { slidesToShow: 1 } },
     ],
-  };
+  }
+
+  const fallbackImages = [
+    "/firstcard.webp",
+    "/secondcard.webp",
+    "/thirdcard.webp",
+  ]
+  const getBgImage = (service, index) => {
+    if (service?.bgImage) return service.bgImage
+    return fallbackImages[index % fallbackImages.length]
+  }
 
   return (
     <Box
@@ -51,15 +61,15 @@ const ServicesSlider = ({ services }) => {
             sx={{
               display: "flex",
               justifyContent: "center",
-              px:  1,
-              py: 0.5
-            }}  
+              px: 1,
+              py: 0.5,
+            }}
           >
             <Box sx={{ maxWidth: "100%", width: "100%" }}>
               <ServiceCard
                 title={service.title}
                 description={service.description}
-                bgImage={service.bgImage}
+                bgImage={getBgImage(service, index)}
                 link={service.link}
               />
             </Box>
@@ -80,8 +90,8 @@ const ServicesSlider = ({ services }) => {
         }}
       >
         <Button
-          variant="contained"
-          color="primary"
+          variant='contained'
+          color='primary'
           startIcon={<ArrowBackIcon />}
           onClick={() => sliderRef.current.slickPrev()}
           sx={{ textTransform: "none" }}
@@ -89,8 +99,8 @@ const ServicesSlider = ({ services }) => {
           Previous
         </Button>
         <Button
-          variant="contained"
-          color="primary"
+          variant='contained'
+          color='primary'
           endIcon={<ArrowForwardIcon />}
           onClick={() => sliderRef.current.slickNext()}
           sx={{ textTransform: "none" }}
@@ -99,7 +109,7 @@ const ServicesSlider = ({ services }) => {
         </Button>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default ServicesSlider;
+export default ServicesSlider

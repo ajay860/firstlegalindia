@@ -37,7 +37,7 @@ const {
 
 /**
  * @swagger
- * /contact-us:
+ * /api/contact-us:
  *   post:
  *     summary: Create a contact request
  *     tags: [Contact]
@@ -57,7 +57,7 @@ router.post('/', createContact);
 
 /**
  * @swagger
- * /contact-us:
+ * /api/contact-us:
  *   get:
  *     summary: Get all contact requests
  *     tags: [Contact]

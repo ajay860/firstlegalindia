@@ -74,8 +74,15 @@ const ServiceDetail = () => {
     return (
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <Typography variant="h4">Service not found</Typography>
+        <Typography
+          component={Link}
+          to="/services"
+          sx={{ color: "primary.main", mt: 2, display: "inline-block" }}
+        >
+          ← Back to Services
+        </Typography>
       </Container>
-    );
+    )
   }
 
   return (

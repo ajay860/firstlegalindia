@@ -8,9 +8,7 @@ import Footer from "../Footer"
 
 const ServiceLayout = () => {
   const location = useLocation()
-  const isServicePage =
-    location.pathname.startsWith("/services") ||
-    location.pathname.startsWith("/industries")
+  const isServicePage = location.pathname.startsWith("/services") || location.pathname.startsWith("/industries")
 
   if (!isServicePage) {
     return (
@@ -19,6 +17,7 @@ const ServiceLayout = () => {
         <Box component='main'>
           <Outlet />
         </Box>
+        <Footer />
       </>
     )
   }
@@ -26,7 +25,7 @@ const ServiceLayout = () => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <ServicesHeader />
-      <Box component='main' sx={{ flexGrow: 1, py: 4 }}>
+      <Box component='main' sx={{ flexGrow: 1, pb: 4 }}>
         <Container maxWidth='xl'>
           <Outlet />
         </Container>

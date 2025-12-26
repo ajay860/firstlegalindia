@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react"
 import {
   Box,
   Container,
@@ -20,79 +21,114 @@ import {
   TableHead,
   TableRow,
   Divider,
-} from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import PhoneIcon from "@mui/icons-material/Phone";
-import EmailIcon from "@mui/icons-material/Email";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { useParams } from "react-router-dom";
+} from "@mui/material"
+import CheckCircleIcon from "@mui/icons-material/CheckCircle"
+import NavigateNextIcon from "@mui/icons-material/NavigateNext"
+import PhoneIcon from "@mui/icons-material/Phone"
+import EmailIcon from "@mui/icons-material/Email"
+import LocationOnIcon from "@mui/icons-material/LocationOn"
+import { useParams } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
 
-/* ================= BREADCRUMB ================= */
-const PageBreadcrumb = ({ current }) => (
-  <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 3 }}>
-    <Link underline="hover" color="inherit" href="/">
-      Home
-    </Link>
-    <Link underline="hover" color="inherit" href="/industries">
-      Industries
-    </Link>
-    <Typography color="text.primary">{current}</Typography>
-  </Breadcrumbs>
-);
+import ContactForm from "../../components/ContactForm"
+import PageBreadcrumb from "../../components/common/PageBreadcrumb"
+import {
+  getServiceBySlug,
+  clearService,
+} from "../../features/services/serviceSlice"
+import { getMegaMenuByKey, selectMegaMenu } from "../../features/megaMenuSlice"
+import { siteContactConfig } from "../../config/siteConfig"
 
 const IndustryDetail = () => {
-  const { industrySlug } = useParams();
+  const { industrySlug } = useParams()
+  const dispatch = useDispatch()
+
+  const { title, phone, email, location, cta } = siteContactConfig
+
+  /* ===== Mega Menu ===== */
+  const { selected: megaMenu, loading: megaMenuLoading } =
+    useSelector(selectMegaMenu)
+
+  /* ===== Service ===== */
+  const {
+    service,
+    loading: serviceLoading,
+    error,
+  } = useSelector((state) => state.services)
+
+  /* ================= FETCH SERVICE ================= */
+  useEffect(() => {
+    if (industrySlug) {
+      dispatch(getServiceBySlug(industrySlug))
+    }
+
+    return () => {
+      dispatch(clearService())
+    }
+  }, [dispatch, industrySlug])
+
+  /* ================= FETCH MEGA MENU ================= */
+  useEffect(() => {
+    if (service?.category_id) {
+      dispatch(getMegaMenuByKey(service.category_id))
+    }
+  }, [dispatch, service?.category_id])
+
+  if (serviceLoading) {
+    return <Typography>Loading...</Typography>
+  }
+
+  if (error) {
+    return <Typography color='error'>{error}</Typography>
+  }
 
   const stats = [
     { value: "500+", label: "Clientele" },
     { value: "20+", label: "CA, CS & Lawyers" },
     { value: "3+", label: "Branches" },
-  ];
+  ]
 
-  const steps = [
-    { number: "1", title: "Documentation", description: "Submit required documents" },
-    { number: "2", title: "Application Filing", description: "We file with authorities" },
-    { number: "3", title: "Registration", description: "Receive certificate" },
-  ];
-
-  const documents = [
-    "PAN Card & Aadhaar Card",
-    "Business Address Proof",
-    "Passport Size Photographs",
-    "Board Resolution",
-    "NOC from Owner",
-    "Business Plan",
-    "Financial Projections",
-    "KYC of Directors",
-  ];
+  console.log("megaMenu >>>" ,megaMenu)
 
   return (
     <Box>
       {/* ================= HERO SECTION ================= */}
       <Box sx={{ bgcolor: "#f5f9ff", py: { xs: 4, md: 8 } }}>
-        <Container maxWidth="lg">
-          <Grid className="row" spacing={4} alignItems="stretch">
+        <Container maxWidth='lg'>
+          <Grid className='row' spacing={4} alignItems='stretch'>
             {/* LEFT CONTENT */}
-            <Grid className="col-sm-7" item xs={12}>
-              <PageBreadcrumb current="Microfinance Company Registration" />
+            <Grid className='col-sm-7' item xs={12}>
+              <PageBreadcrumb
+                items={[
+                  { label: "Home", to: "/" },
+                  {
+                    label: megaMenu?.title || "Industries",
+                    to: `/services/${megaMenu?.menu_key}`,
+                  },
+                ]}
+                current={service?.sort_title}
+              />
 
-              <Typography variant="h3" fontWeight={700} color="success.main" gutterBottom>
-                Microfinance Company Registration
+              <Typography
+                variant='h3'
+                fontWeight={700}
+                color='success.main'
+                gutterBottom
+              >
+                {service?.sort_title}
               </Typography>
 
-              <Typography color="text.secondary" mb={4}>
-                Hire CAAQ Consultancy to register your Microfinance Company with
-                complete legal compliance and expert support.
+              <Typography color='text.secondary' mb={4}>
+                {service?.description}
               </Typography>
 
               <Grid container spacing={3} mb={4}>
                 {stats.map((item, index) => (
                   <Grid item xs={4} key={index}>
-                    <Typography variant="h5" fontWeight={700}>
+                    <Typography variant='h5' fontWeight={700}>
                       {item.value}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant='body2' color='text.secondary'>
                       {item.label}
                     </Typography>
                   </Grid>
@@ -100,8 +136,8 @@ const IndustryDetail = () => {
               </Grid>
 
               <Button
-                variant="contained"
-                size="large"
+                variant='contained'
+                size='large'
                 sx={{
                   bgcolor: "#003f5c",
                   px: 4,
@@ -116,36 +152,17 @@ const IndustryDetail = () => {
             </Grid>
 
             {/* RIGHT FORM */}
-            <Grid className="col-sm-5" item xs={12}>
-              <Paper sx={{ bgcolor: "#d9efff", p: 4, borderRadius: 4, height: "100%" }}>
-                <Typography variant="h6" fontWeight={700} textAlign="center" mb={3}>
-                  Free Consultation by Expert
-                </Typography>
-
-                <TextField fullWidth placeholder="Your Name" sx={{ mb: 2 }} />
-                <TextField fullWidth placeholder="Your Email" sx={{ mb: 2 }} />
-                <TextField fullWidth placeholder="Your Phone Number" sx={{ mb: 2 }} />
-                <TextField
-                  fullWidth
-                  placeholder="Your Message"
-                  multiline
-                  rows={4}
-                  sx={{ mb: 3 }}
-                />
-
-                <Button
-                  fullWidth
-                  size="large"
-                  sx={{
-                    bgcolor: "#6fb34a",
-                    color: "white",
-                    borderRadius: "30px",
-                    py: 1.5,
-                    fontWeight: 600,
-                  }}
-                >
-                  Submit
-                </Button>
+            <Grid className='col-sm-5' item xs={12}>
+              <Paper
+                sx={{
+                  bgcolor: "#FFF",
+                  p: 4,
+                  borderRadius: 4,
+                  height: "100%",
+                  display: "none",
+                }}
+              >
+                <ContactForm />
               </Paper>
             </Grid>
           </Grid>
@@ -153,139 +170,95 @@ const IndustryDetail = () => {
       </Box>
 
       {/* ================= MAIN CONTENT ================= */}
-      <Container maxWidth="lg" sx={{ py: 6 }}>
-        <Grid className="row" spacing={4}>
+      <Container maxWidth='lg' sx={{ py: 6 }}>
+        <Grid className='row' spacing={4}>
           {/* LEFT SIDEBAR */}
-          <Grid className="col-sm-4" item xs={12}>
+          <Grid className='col-sm-4' item xs={12}>
             <Paper sx={{ p: 3 }}>
               <Typography fontWeight={700} mb={2}>
                 Related Services
               </Typography>
               <List>
-                {["Unlock Your Potential: Register Your Microfinance Company", "Public Limited Company", "Startup India Registration", "OPC Registration", "Nidhi Company Registration", "FPO Registration Services", "Partnership Firm Registration", "Pvt. Ltd. Company Registration Services", "Sole Proprietorship Registration Services", "LLP Registration Services"].map(
-                  (item, i) => (
-                    <ListItem key={i} disableGutters>
+                {console.log(">>>", megaMenu)}
+                {megaMenu?.data?.sections?.flatMap((section) =>
+                  section.items.map((item) => (
+                    <ListItem
+                      key={item.link}
+                      disableGutters
+                      component={Link}
+                      to={item.link}
+                      sx={{ cursor: "pointer" }}
+                    >
                       <ListItemIcon>
-                        <CheckCircleIcon color="primary" />
+                        <CheckCircleIcon color='primary' />
                       </ListItemIcon>
-                      <ListItemText primary={item} />
+                      <ListItemText primary={item.label} />
                     </ListItem>
-                  )
+                  ))
                 )}
               </List>
               <hr />
+              
               <Typography fontWeight={700} mb={2}>
                 Contact Information
               </Typography>
 
-              <Box display="flex" alignItems="center" mb={2}>
-                <PhoneIcon sx={{ mr: 1 }} color="primary" />
-                <Typography>+91 1234567890</Typography>
+              <Box display='flex' alignItems='center' mb={2}>
+                <PhoneIcon sx={{ mr: 1 }} color='primary' />
+                <Typography
+                  component='a'
+                  href={phone.link}
+                  sx={{ textDecoration: "none" }}
+                >
+                  {phone.label}
+                </Typography>
               </Box>
 
-              <Box display="flex" alignItems="center" mb={2}>
-                <EmailIcon sx={{ mr: 1 }} color="primary" />
-                <Typography>info@example.com</Typography>
+              <Box display='flex' alignItems='center' mb={2}>
+                <EmailIcon sx={{ mr: 1 }} color='primary' />
+                <Typography
+                  component='a'
+                  href={email.link}
+                  sx={{ textDecoration: "none" }}
+                >
+                  {email.label}
+                </Typography>
               </Box>
 
-              <Box display="flex" alignItems="center">
-                <LocationOnIcon sx={{ mr: 1 }} color="primary" />
-                <Typography>India</Typography>
+              <Box display='flex' alignItems='center'>
+                <LocationOnIcon sx={{ mr: 1 }} color='primary' />
+                <Typography>{location.label}</Typography>
               </Box>
 
-              <Button variant="contained" fullWidth sx={{ mt: 3 }}>
-                Call Now
+              <Button
+                variant='contained'
+                fullWidth
+                sx={{ mt: 3 }}
+                component='a'
+                href={cta.link}
+              >
+                {cta.text}
               </Button>
+
             </Paper>
           </Grid>
 
           {/* CENTER CONTENT */}
-          <Grid className="col-sm-8" item xs={12}>
+          <Grid className='col-sm-8' item xs={12}>
             {/* ADDITIONAL CONTENT */}
             <Paper sx={{ p: 4, mb: 5 }}>
-              <Typography variant="h4" fontWeight={700} gutterBottom>
-                Unlock Your Potential: Register Your Microfinance Company
-              </Typography>
-
-              <Typography paragraph color="text.secondary">
-                Microfinance companies provide financial support to low-income
-                groups, helping drive financial inclusion and economic growth.
-              </Typography>
-
-              <Typography paragraph color="text.secondary">
-                CAAQ offers end-to-end consulting services for microfinance
-                registration, funding assistance, and compliance support.
-              </Typography>
-
-              <Typography color="text.secondary">
-                We promote responsible lending, women entrepreneurship, and
-                sustainable growth without over-borrowing risks.
-              </Typography>
+                <div dangerouslySetInnerHTML={{
+    __html: service?.article_content,
+  }}>
+                </div>
             </Paper>
 
             <Divider sx={{ mb: 4 }} />
-
-            {/* STEPS */}
-            <Typography variant="h5" fontWeight={700} mb={3}>
-              Simple 3-Step Process
-            </Typography>
-
-            <Grid container spacing={3} mb={5}>
-              {steps.map((step, i) => (
-                <Grid item xs={12} sm={4} key={i}>
-                  <Card sx={{ p: 3, textAlign: "center", height: "100%" }}>
-                    <Box
-                      sx={{
-                        width: 40,
-                        height: 40,
-                        bgcolor: "primary.main",
-                        color: "white",
-                        borderRadius: "50%",
-                        mx: "auto",
-                        mb: 2,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      {step.number}
-                    </Box>
-                    <Typography fontWeight={600}>{step.title}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {step.description}
-                    </Typography>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-
-            {/* DOCUMENTS */}
-            <Typography variant="h5" fontWeight={700} mb={2}>
-              Documents Required
-            </Typography>
-
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Supporting Documents</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {documents.map((doc, i) => (
-                    <TableRow key={i}>
-                      <TableCell>{doc}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
           </Grid>
-
         </Grid>
       </Container>
     </Box>
-  );
-};
+  )
+}
 
-export default IndustryDetail;
+export default IndustryDetail
