@@ -211,8 +211,8 @@ const deleteService = async (req, res) => {
 };
 
 const getServiceBySlug = async (req, res) => {
-  const { slug } = req.params; // slug from URL
-
+  const { slug } = req.params;
+  
   try {
     const { rows } = await pool.query(
       "SELECT * FROM services WHERE link = $1",

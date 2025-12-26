@@ -84,7 +84,7 @@ const AddServices = () => {
           ? files[0]
           : value,
       ...(name === "title" && {
-        link: generateLink(value),
+        link: '/services/'+generateLink(value),
         sort_title: prev.sort_title || value,
       }),
     }));

@@ -1,25 +1,16 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import {
   Box,
   Container,
   Grid,
   Typography,
   Button,
-  Card,
-  TextField,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Paper,
-  Breadcrumbs,
   Link,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Divider,
 } from "@mui/material"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
@@ -27,7 +18,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext"
 import PhoneIcon from "@mui/icons-material/Phone"
 import EmailIcon from "@mui/icons-material/Email"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 
 import ContactForm from "../../components/ContactForm"
@@ -42,8 +33,9 @@ import { siteContactConfig } from "../../config/siteConfig"
 const IndustryDetail = () => {
   const { industrySlug } = useParams()
   const dispatch = useDispatch()
+   const navigate = useNavigate() 
 
-  const { title, phone, email, location, cta } = siteContactConfig
+  const { phone, email, location, cta } = siteContactConfig
 
   /* ===== Mega Menu ===== */
   const { selected: megaMenu, loading: megaMenuLoading } =
@@ -69,10 +61,18 @@ const IndustryDetail = () => {
 
   /* ================= FETCH MEGA MENU ================= */
   useEffect(() => {
+    
     if (service?.category_id) {
       dispatch(getMegaMenuByKey(service.category_id))
     }
   }, [dispatch, service?.category_id])
+
+  // useEffect(() => {
+  //   if (service === null) {
+  //     // navigate("/services/our-services", { replace: true })
+  //   }
+  // }, [serviceLoading, service, error, navigate])
+
 
   if (serviceLoading) {
     return <Typography>Loading...</Typography>
@@ -87,8 +87,6 @@ const IndustryDetail = () => {
     { value: "20+", label: "CA, CS & Lawyers" },
     { value: "3+", label: "Branches" },
   ]
-
-  console.log("megaMenu >>>" ,megaMenu)
 
   return (
     <Box>

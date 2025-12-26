@@ -12,7 +12,7 @@ import AllServices from '../pages/admin/all-serivces'
 import ContactUs from '../pages/admin/contact-us'
 import AddCategory from "../pages/admin/add-category";
 import AddServices from '../pages/admin/add-services';
-import AddCategoryForm from '../pages/admin/add-category/AddCategoryForm'
+import AddCategoryForm from '../pages/admin/add-category/edit-category'
 
 const AdminRoutes = () => {
   return (

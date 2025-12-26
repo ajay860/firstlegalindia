@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -22,11 +22,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { Link } from 'react-router-dom';
-import { MENU_DATA } from '../../config/menu';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMegaMenus } from '../../features/megaMenuSlice';
 
 const ServicesHeader = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  const dispatch = useDispatch();
+  const { list: megaMenu, loading } = useSelector(state => state.megaMenu);
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
@@ -34,34 +38,35 @@ const ServicesHeader = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+  const handleToggle = (key) => setExpandedItems(prev => ({ ...prev, [key]: !prev[key] }));
 
-  const handleToggle = (key) => {
-    setExpandedItems((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
+  useEffect(() => {
+    dispatch(getMegaMenus());
+  }, [dispatch]);
 
   // ===== MOBILE MENU =====
   const renderMobileMenu = () => (
     <Box sx={{ width: 300, p: 2 }}>
-      {MENU_DATA.map((section) => (
-        <Box key={section.key}>
-          <ListItem button onClick={() => handleToggle(section.key)}>
+      {megaMenu.map(section => (
+        <Box key={section.menu_key}>
+          <ListItem button onClick={() => handleToggle(section.menu_key)}>
             <ListItemText primary={section.title} />
-            {expandedItems[section.key] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            {expandedItems[section.menu_key] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </ListItem>
 
-          <Collapse in={expandedItems[section.key]} unmountOnExit>
+          <Collapse in={expandedItems[section.menu_key]} unmountOnExit>
             <List disablePadding>
-              {section.sections.map((sub, i) => (
+              {section.data?.sections?.map((sub, i) => (
                 <Box key={i}>
                   <ListItem
                     button
-                    onClick={() => handleToggle(`${section.key}-${i}`)}
+                    onClick={() => handleToggle(`${section.menu_key}-${i}`)}
                     sx={{ pl: 4 }}
                   >
                     <ListItemText primary={sub.heading} />
                   </ListItem>
 
-                  <Collapse in={expandedItems[`${section.key}-${i}`]} unmountOnExit>
+                  <Collapse in={expandedItems[`${section.menu_key}-${i}`]} unmountOnExit>
                     <List disablePadding>
                       {sub.items.map((item, idx) => (
                         <ListItem
@@ -90,18 +95,16 @@ const ServicesHeader = () => {
   // ===== DESKTOP MENU =====
   const renderDesktopMenu = () => (
     <Box sx={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}>
-      {MENU_DATA.map((section) => (
+      {megaMenu.map(section => (
         <Button
-          key={section.key}
+          key={section.menu_key}
           color="inherit"
           sx={{ fontWeight: 'bold', mx: 1 }}
           onMouseEnter={(e) => {
-            setActiveMenu(section.key);
+            setActiveMenu(section.menu_key);
             setAnchorEl(e.currentTarget);
           }}
-          endIcon={
-            activeMenu === section.key ? <ExpandLessIcon /> : <ExpandMoreIcon />
-          }
+          endIcon={activeMenu === section.menu_key ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         >
           {section.title}
         </Button>
@@ -110,33 +113,28 @@ const ServicesHeader = () => {
   );
 
   return (
-    // 🔥 SINGLE HOVER ZONE
     <Box
       onMouseLeave={() => {
         setActiveMenu(null);
         setAnchorEl(null);
       }}
-       sx={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 10
-       }}
+      sx={{ position: 'sticky', top: 0, zIndex: 10 }}
     >
-      <AppBar position="sticky" color="default"   elevation={0}
-      sx={{
-        borderBottom: 'none',          // remove border if any
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)', // ✅ custom shadow
-        zIndex: (theme) => theme.zIndex.appBar,
-        bgcolor: 'white',
-      }}>
+      <AppBar
+        position="sticky"
+        color="default"
+        elevation={0}
+        sx={{
+          borderBottom: 'none',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+          zIndex: theme.zIndex.appBar,
+          bgcolor: 'white',
+        }}
+      >
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 1 }}>
-              <Typography
-                component={Link}
-                to="/"
-                sx={{ textDecoration: 'none', color: 'inherit' }}
-              >
+              <Typography component={Link} to="/" sx={{ textDecoration: 'none', color: 'inherit' }}>
                 <img src="/logo.png" alt="Logo" height={40} />
               </Typography>
             </Box>
@@ -146,16 +144,16 @@ const ServicesHeader = () => {
                 <IconButton onClick={handleDrawerToggle}>
                   <MenuIcon />
                 </IconButton>
-                <Drawer
-                  anchor="right"
-                  open={mobileOpen}
-                  onClose={handleDrawerToggle}
-                >
-                  {renderMobileMenu()}
+                <Drawer anchor="right" open={mobileOpen} onClose={handleDrawerToggle}>
+                  {loading ? (
+                    <Typography sx={{ p: 2 }}>Loading...</Typography>
+                  ) : (
+                    renderMobileMenu()
+                  )}
                 </Drawer>
               </>
             ) : (
-              renderDesktopMenu()
+              loading ? <Typography sx={{ px: 2 }}>Loading menus...</Typography> : renderDesktopMenu()
             )}
           </Toolbar>
         </Container>
@@ -184,8 +182,9 @@ const ServicesHeader = () => {
               }}
               gap={4}
             >
-              {MENU_DATA.find((m) => m.key === activeMenu)?.sections.map(
-                (sub, i) => (
+              {megaMenu
+                .find(m => m.menu_key === activeMenu)
+                ?.data?.sections?.map((sub, i) => (
                   <Box key={i}>
                     <Typography fontWeight="bold" gutterBottom>
                       {sub.heading}
@@ -205,8 +204,7 @@ const ServicesHeader = () => {
                       ))}
                     </List>
                   </Box>
-                )
-              )}
+                ))}
             </Box>
           </Container>
         </Paper>
