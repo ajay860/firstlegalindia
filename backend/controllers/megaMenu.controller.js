@@ -27,6 +27,33 @@ exports.createMegaMenu = async (req, res) => {
   }
 };
 
+exports.updateMegaMenu = async (req, res) => {
+  try {
+    const { menu_key } = req.params;
+    const { title, data } = req.body;
+
+    if (!title || !data) {
+      return res.status(400).json({ message: "Title and data are required" });
+    }
+
+    const result = await pool.query(
+      `UPDATE mega_menus
+       SET title = $1, data = $2, updated_at = NOW()
+       WHERE menu_key = $3
+       RETURNING *`,
+      [title, data, menu_key]
+    );
+
+    if (!result.rows.length) {
+      return res.status(404).json({ message: "Menu not found" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 /**
  * Get Mega Menu by key
  */
@@ -54,23 +81,20 @@ exports.getMegaMenuByKey = async (req, res) => {
 /**
  * Update Mega Menu
  */
-exports.updateMegaMenu = async (req, res) => {
+exports.deleteMegaMenu = async (req, res) => {
   try {
     const { menu_key } = req.params;
-    const { title, data } = req.body;
+
     const result = await pool.query(
-      `UPDATE mega_menus
-       SET title = $1, data = $2, updated_at = NOW()
-       WHERE menu_key = $3
-       RETURNING *`,
-      [title, data, menu_key]
+      `DELETE FROM mega_menus WHERE menu_key = $1 RETURNING *`,
+      [menu_key]
     );
 
     if (!result.rows.length) {
       return res.status(404).json({ message: "Menu not found" });
     }
 
-    res.json(result.rows[0]);
+    res.json({ message: "Menu permanently deleted" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

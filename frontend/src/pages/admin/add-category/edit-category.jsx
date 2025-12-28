@@ -2,24 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Container, Card, Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  createMegaMenu,
-  updateMegaMenu,
-  resetMegaMenuState,
-  getMegaMenuByKey 
-} from "../../../features/megaMenuSlice";
+import { updateMegaMenu, resetMegaMenuState, getMegaMenuByKey } from "../../../features/megaMenuSlice";
 
 /* ---------- Helpers ---------- */
-const slugify = (str = "") =>
-  str
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
-
 const generateItemLink = (menuKey, label) =>
-  `/services/${menuKey}/${slugify(label)}`;
+  `/services/${menuKey}/${label.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-")}`;
 
 const emptyCategory = {
   key: "",
@@ -27,57 +14,55 @@ const emptyCategory = {
   sections: [],
 };
 
-const AddCategoryForm = ({ editData = null, onClose }) => {
+const EditCategory = ({ onClose }) => {
   const dispatch = useDispatch();
-  
   const { menuKey } = useParams(); // from /admin/edit-category/:menuKey
 
-  const { loading, success, error } = useSelector(
-    (state) => state.megaMenu
-  );
+  const { loading, success, error } = useSelector((state) => state.megaMenu);
 
-  const isEdit = Boolean(editData);
   const [category, setCategory] = useState(emptyCategory);
 
+  // Fetch menu data on mount
   useEffect(() => {
-    if (!editData) {
-      setCategory(emptyCategory);
-      return;
+    if (menuKey) {
+      dispatch(getMegaMenuByKey(menuKey)).then((res) => {
+        if (res.payload) {
+          const data = res.payload;
+          setCategory({
+            key: data.menu_key,
+            title: data.title,
+            sections: data.data?.sections || [],
+          });
+        }
+      });
     }
+  }, [menuKey, dispatch]);
 
-    setCategory({
-      key: editData.menu_key,
-      title: editData.title,
-      sections: editData.data?.sections || [],
-    });
-  }, [editData]);
-
+  // Reset state after successful update
   useEffect(() => {
-    if (!success) return;
+    if (success) {
+      dispatch(resetMegaMenuState());
+      onClose?.();
+    }
+  }, [success, dispatch, onClose]);
 
-    dispatch(resetMegaMenuState());
-    if (!isEdit) setCategory(emptyCategory);
-    onClose?.();
-  }, [success, dispatch, isEdit, onClose]);
-
-  const handleRootChange = (e) => {
+  // Update title and regenerate links
+  const handleTitleChange = (e) => {
     const title = e.target.value;
-    const menuKey = slugify(title);
-
     setCategory((prev) => ({
       ...prev,
       title,
-      key: menuKey,
       sections: prev.sections.map((section) => ({
         ...section,
         items: section.items.map((item) => ({
           ...item,
-          link: generateItemLink(menuKey, item.label),
+          link: generateItemLink(prev.key, item.label),
         })),
       })),
     }));
   };
 
+  /* ---------- Section & Item Handlers ---------- */
   const addSection = () =>
     setCategory((prev) => ({
       ...prev,
@@ -123,6 +108,7 @@ const AddCategoryForm = ({ editData = null, onClose }) => {
     setCategory((prev) => ({ ...prev, sections }));
   };
 
+  /* ---------- Submit Handler ---------- */
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -132,34 +118,14 @@ const AddCategoryForm = ({ editData = null, onClose }) => {
       data: { sections: category.sections },
     };
 
-    isEdit
-      ? dispatch(updateMegaMenu({ menuKey: editData.menu_key, payload }))
-      : dispatch(createMegaMenu(payload));
+    dispatch(updateMegaMenu({ menuKey: category.key, payload }));
   };
-
-  useEffect(() => {
-  if (menuKey) {
-    // fetch the menu data by key
-    dispatch(getMegaMenuByKey(menuKey)).then((res) => {
-      if (res.payload) {
-        const data = res.payload;
-        setCategory({
-          key: data.menu_key,
-          title: data.title,
-          sections: data.data?.sections || [],
-        });
-      }
-    });
-  }
-}, [menuKey, dispatch]);
 
   return (
     <Container fluid="md">
       <Card>
         <Card.Body>
-          <Card.Title className="mb-4">
-            {isEdit ? "Edit Category" : "Add Category"}
-          </Card.Title>
+          <Card.Title className="mb-4">Edit Category</Card.Title>
 
           {loading && <p className="text-info">Saving...</p>}
           {error && <p className="text-danger">{error}</p>}
@@ -171,8 +137,8 @@ const AddCategoryForm = ({ editData = null, onClose }) => {
                   <Form.Label>Category Title</Form.Label>
                   <Form.Control
                     value={category.title}
-                    onChange={handleRootChange}
-                    placeholder="e.g. Services"
+                    onChange={handleTitleChange}
+                    placeholder="e.g. Business Registration"
                     required
                   />
                 </Form.Group>
@@ -180,7 +146,7 @@ const AddCategoryForm = ({ editData = null, onClose }) => {
 
               <Col md={6}>
                 <Form.Group>
-                  <Form.Label>Category Key (auto-generated)</Form.Label>
+                  <Form.Label>Category Key (read-only)</Form.Label>
                   <Form.Control value={category.key} readOnly className="bg-light" />
                 </Form.Group>
               </Col>
@@ -242,7 +208,7 @@ const AddCategoryForm = ({ editData = null, onClose }) => {
                   </Button>
                 )}
                 <Button type="submit" variant="primary">
-                  {isEdit ? "Update Category" : "Save Category"}
+                  Update Category
                 </Button>
               </div>
             </div>
@@ -253,4 +219,4 @@ const AddCategoryForm = ({ editData = null, onClose }) => {
   );
 };
 
-export default AddCategoryForm;
+export default EditCategory;

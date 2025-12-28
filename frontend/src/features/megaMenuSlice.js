@@ -60,7 +60,6 @@ export const deleteMegaMenu = createAsyncThunk(
 export const updateMegaMenu = createAsyncThunk(
   "megaMenu/update",
   async ({ menuKey, payload }, { rejectWithValue }) => {
-    console.log("menuKey, payload", menuKey, payload)
     try {
       const response = await megaMenuAPI.updateMegaMenu(menuKey, payload)
       return response
