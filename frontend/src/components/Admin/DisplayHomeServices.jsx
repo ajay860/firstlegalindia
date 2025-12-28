@@ -49,7 +49,7 @@ const DisplayHomeServices = ({ onEdit }) => {
         <Typography color="error" sx={{ textAlign: "center", mt: 6 }}>
           {error}
         </Typography>
-      ) : homeServices.length === 0 ? (
+      ) : homeServices?.length === 0 ? (
         <Typography sx={{ textAlign: "center", mt: 6 }}>
           No services found.
         </Typography>
@@ -101,7 +101,7 @@ const DisplayHomeServices = ({ onEdit }) => {
 
           <TablePagination
             component="div"
-            count={homeServices.length}
+            count={homeServices?.length}
             page={page}
             onPageChange={handleChangePage}
             rowsPerPage={rowsPerPage}

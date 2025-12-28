@@ -30,7 +30,7 @@ const ServicesSection = () => {
         <Typography color="error" sx={{ textAlign: "center", mt: 6 }}>
           {error}
         </Typography>
-      ) : homeServices.length === 0 ? (
+      ) : homeServices?.length === 0 ? (
         <Typography sx={{ textAlign: "center", mt: 6 }}>
           No services found.
         </Typography>
